@@ -1,0 +1,78 @@
+CPUS="1"
+MEMORY="1024"
+
+
+$script = <<SCRIPT
+#!/bin/bash
+
+# support RPM for puppetserver installation
+rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+chmod 755 /opt/puppetlabs/puppet/cache/
+# puppet installation plus some other utilities
+yum install -y puppet-agent vim git xauth
+echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
+/opt/puppetlabs/puppet/bin/puppet agent -t 
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "centos/7"
+  config.ssh.forward_x11 = true
+
+  config.vm.define "EFD" do |efd|
+    efd.vm.hostname = "ts-efd-node-01.dev.lsst.org"
+    efd.vm.provision "shell" do |s|
+      s.inline = $script
+    end
+    efd.vm.network "private_network", ip: "10.0.0.10"
+   config.vm.provider "virtualbox" do |v|
+     v.name = "EFD"
+     v.memory = MEMORY
+     v.cpus = CPUS
+   end
+ end 
+
+  config.vm.define "influx" do |influx|
+    influx.vm.hostname = "gs-influxdb-node-01.dev.lsst.org"
+    influx.vm.provision "shell" do |s|
+      s.inline = $script
+    end
+    influx.vm.network "private_network", ip: "10.0.0.251"
+   config.vm.provider "virtualbox" do |v|
+     v.name = "InfluxDB"
+     v.memory = MEMORY
+     v.cpus = CPUS
+   end
+ end 
+
+  config.vm.define "grafana" do |grafana|
+    grafana.vm.hostname = "gs-grafana-node-01.dev.lsst.org"
+    grafana.vm.provision "shell" do |s|
+      s.inline = $script
+    end
+    grafana.vm.network "private_network", ip: "10.0.0.252"
+   config.vm.provider "virtualbox" do |v|
+     v.name = "Grafana"
+     v.memory = MEMORY
+     v.cpus = CPUS
+   end
+ end
+
+  config.vm.define "graylog" do |graylog|
+    graylog.vm.hostname = "gs-graylog-node-01.dev.lsst.org"
+    graylog.vm.provision "shell" do |s|
+      s.inline = $script
+    end
+    graylog.vm.network "private_network", ip: "10.0.0.253"
+   config.vm.provider "virtualbox" do |v|
+     v.name = "Graylog"
+     v.memory = 2048
+     v.cpus = 2
+   end
+ end 
+
+
+end

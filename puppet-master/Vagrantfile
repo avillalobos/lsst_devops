@@ -1,0 +1,68 @@
+CPUS="1"
+MEMORY="1024"
+VAGRANT_HOSTNAME="puppet-master.dev.lsst.org"
+
+
+$script = <<SCRIPT
+#!/bin/bash
+
+rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+yum install -y puppetserver git
+sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
+systemctl enable puppetserver
+systemctl start puppetserver
+echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
+sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
+/opt/puppetlabs/puppet/bin/gem install r10k
+mkdir -p /etc/puppetlabs/r10k/
+mkdir /root/hiera
+git init /root/hiera/
+cd /root/hiera
+git checkout -b develop
+cp /tmp/common.yaml /root/hiera/
+git add common.yaml
+git commit -m "Initial Commit"
+
+echo -e "---
+:cachedir: '/var/cache/r10k'
+ 
+:sources:
+  :lsst.org:
+    remote: 'https://github.com/lsst/itconf_l1ts.git'
+    basedir: '/etc/puppetlabs/code/environments'
+  :lsst_hiera:
+    remote: '/root/hiera/.git'
+    basedir: '/etc/puppetlabs/code/hieradata'
+" > /etc/puppetlabs/r10k/r10k.yaml
+
+
+
+/opt/puppetlabs/puppet/bin/r10k deploy environment -p
+
+/opt/puppetlabs/puppet/bin/puppet agent -t 
+
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "puppet-master" do |puppet|
+    puppet.vm.box = "centos/7"
+    puppet.vm.hostname = VAGRANT_HOSTNAME
+
+    puppet.vm.provision "file", source: "./common.yaml", destination: "/tmp/common.yaml"
+
+    puppet.vm.provision "shell" do |s|
+      s.inline = $script
+      s.args = VAGRANT_HOSTNAME
+    end
+
+    puppet.vm.network "private_network", ip: "10.0.0.250"
+    puppet.ssh.forward_x11 = true
+    puppet.vm.provider "virtualbox" do |v|
+      v.name = VAGRANT_HOSTNAME
+      v.memory = MEMORY
+      v.cpus = CPUS
+    end
+  end
+end
