@@ -3,9 +3,9 @@ Automatic Deployment of LSST Systems
 
 **Requirements:**
 
-VirtualBox
+   * VirtualBox
 
-Vagrant.
+   * Vagrant.
 
 To use this scripts you need first start up the puppet master VM. The network configured within this scripts is 10.0.0.0/24. All nodes have already an IP assigned and in base on those IPs the services are being configured.
 
