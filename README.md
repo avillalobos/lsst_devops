@@ -43,7 +43,8 @@ To start up a node, move to nodes directory, you need to know which node you wan
 
 To start up any of those, do the following:
 
-$ cd nodes
-$ vagrant up grafana
+    $ cd nodes
+    $ vagrant up grafana
+    $ vagrant ssh grafana
 
 To login into the VM, execute `vagrant ssh`.
