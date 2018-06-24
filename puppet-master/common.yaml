@@ -210,6 +210,10 @@ graylog_server_root_password_sha2: "ada6995028c231eff4f2bf1b647b2e120459d0ea9721
 graylog_rsyslog_port: "5514"
 graylog_rsyslog_proto: "udp"
 
+# Grafana Configuration
+#
+grafana_version: "5.1.4"
+
 #=============================================================================
 # Telegraf common configuration
 
