@@ -283,3 +283,11 @@ telegraf::inputs:
                 location: "/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml"
         io:
         net:
+
+
+# CCS Configurtion
+##########################################################
+
+ccs::java_version_major: "8u171"
+ccs::java_version_minor: "b11"
+ccs::java_url_hash: "512cd62ec5174c3487ac17c61aaa89e8"
