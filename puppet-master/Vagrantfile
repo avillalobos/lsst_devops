@@ -27,7 +27,7 @@ git commit -m "Initial Commit"
 
 echo -e "---
 :cachedir: '/var/cache/r10k'
- 
+
 :sources:
   :lsst.org:
     remote: 'https://github.com/lsst/itconf_l1ts.git'
@@ -37,32 +37,28 @@ echo -e "---
     basedir: '/etc/puppetlabs/code/hieradata'
 " > /etc/puppetlabs/r10k/r10k.yaml
 
-
-
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
 
-/opt/puppetlabs/puppet/bin/puppet agent -t 
+/opt/puppetlabs/puppet/bin/puppet agent -t
 
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.define "puppet-master" do |puppet|
-    puppet.vm.box = "centos/7"
-    puppet.vm.hostname = VAGRANT_HOSTNAME
+	config.vm.define "puppet-master" do |puppet|
+		puppet.vm.box = "centos/7"
+		puppet.vm.hostname = VAGRANT_HOSTNAME
+		puppet.vm.provision "file", source: "./common.yaml", destination: "/tmp/common.yaml"
+		puppet.vm.provision "shell" do |s|
+			s.inline = $script
+			s.args = VAGRANT_HOSTNAME
+		end
 
-    puppet.vm.provision "file", source: "./common.yaml", destination: "/tmp/common.yaml"
-
-    puppet.vm.provision "shell" do |s|
-      s.inline = $script
-      s.args = VAGRANT_HOSTNAME
-    end
-
-    puppet.vm.network "private_network", ip: "10.0.0.250"
-    puppet.ssh.forward_x11 = true
-    puppet.vm.provider "virtualbox" do |v|
-      v.name = VAGRANT_HOSTNAME
-      v.memory = MEMORY
-      v.cpus = CPUS
-    end
-  end
+		puppet.vm.network "private_network", ip: "10.0.0.250"
+		puppet.ssh.forward_x11 = true
+		puppet.vm.provider "virtualbox" do |v|
+			v.name = VAGRANT_HOSTNAME
+			v.memory = MEMORY
+			v.cpus = CPUS
+		end
+	end
 end
