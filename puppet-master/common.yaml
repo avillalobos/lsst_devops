@@ -291,3 +291,15 @@ telegraf::inputs:
 ccs::java_version_major: "8u171"
 ccs::java_version_minor: "b11"
 ccs::java_url_hash: "512cd62ec5174c3487ac17c61aaa89e8"
+
+# Data Management profile variables
+#####################################################
+dm::dm_header_service::ts_xml_subsystems:
+        #- "camera"
+        #- "tcs"
+        - "ocs"
+        - "efd"
+
+dm::dm_header_service::ts_xml_languages:
+        - "cpp"
+        - "python"

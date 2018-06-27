@@ -105,4 +105,20 @@ Vagrant.configure("2") do |config|
 			v.cpus = CPUS
 		end
 	end
+
+	# DM Header Service
+	config.vm.define "dm-hs" do |custom_vm|
+		custom_vm.vm.hostname = "dm-hs-node-01.dev.lsst.org"
+		custom_vm.vm.provision "shell" do |s|
+			s.inline = $script
+			s.args = "develop"
+		end
+		custom_vm.vm.network "private_network", ip: "10.0.0.30"
+		config.vm.provider "virtualbox" do |v|
+			v.name = "shutter"
+			v.memory = MEMORY
+			v.cpus = CPUS
+		end
+	end
+
 end
