@@ -25,26 +25,36 @@ To start up a node, move to nodes directory, you need to know which node you wan
  
     IP: 10.0.0.10
     Hostname: ts-efd-node-01.dev.lsst.org
+    name: EFD
   
  2 influx
  
     IP: 10.0.0.251
     Hostname: gs-influxdb-node-01.dev.lsst.org
+    name: influx
   
  3 grafana
  
     IP: 10.0.0.252
     Hostname: gs-grafana-node-01.dev.lsst.org
-  
+    name: grafana
+
  4 graylog
 
     IP: 10.0.0.253
     Hostname: gs-graylog-node-01.dev.lsst.org
+    name: graylog
+
+ 5 DM Header Service
+
+    IP: 10.0.0.30
+    Hostname: dm-hs-node-01.dev.lsst.org
+    name: dm-hs
 
 To start up any of those, do the following:
 
     $ cd nodes
-    $ vagrant up grafana
-    $ vagrant ssh grafana
+    $ vagrant up <name>
+    $ vagrant ssh <name>
 
 To login into the VM, execute `vagrant ssh`.
