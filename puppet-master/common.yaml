@@ -1,24 +1,24 @@
 ---
-motd: "Server installed without custom motd\n"
+motd: |
+        Server installed on a SandBox
+                * Comments or suggestions to Andres Villalobos <avillalobos@lsst.org>
+                * Git Repo: https://github.com/avillalobos/lsst_devops
+                * Puppet Server:  10.0.0.250 <vagrant up>
+                * Influx Server:  10.0.0.251 <vagrant up influx>
+                * Grafana Server: 10.0.0.252 <vagrant up grafana>
+                * Graylog Server: 10.0.0.253 <vagrant up graylog>
 
 ntp:
         ntp_server_1 : "0.south-america.pool.ntp.org"
         ntp_server_2 : "0.north-america.pool.ntp.org"
         ntp_server_3 : "1.north-america.pool.ntp.org"
 
-# Country values!
-
-ntp:
-        ntp_server_1 : "ntp.shoa.cl"
-        ntp_server_2 : "1.cl.pool.ntp.org"
-        ntp_server_3 : "1.south-america.pool.ntp.org"
-
 #Password generated as: openssl passwd -1 -salt LSST <PWD>
 # Admin passwords
 #root4u
 root_pwd: "$1$LSST$B1iDiSUKZsUJUPLHpj2Cl/"
-#aZsb2Ziset!
-lsst_sysadmin_pwd: "$1$LSST$MoLohF8YrAi0QOyKq.FhP0"
+#Bnice2me
+lsst_sysadmin_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
 
 # Sal/LSST Passwords - Bnice2me
 lsstmgr_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
@@ -27,10 +27,10 @@ tcs_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
 
 lsst_firewall_default_zone: "public"
 lsst_firewall_default_target: "DROP"
-lsst_firewall_default_sources: 
+lsst_firewall_default_sources:
         - 10.0.0.0/24
 
-puppet_ssh_id_rsa_pub: "AAAAB3NzaC1yc2EAAAADAQABAAABAQDUfHRLDrx8ak3B8AlIOzKRz9IGpzdblWz17luAnZ+BzSYALTJP9sXj4Lc+CVQxjhzUr8wWJZ4hSe/NJZ+IT7bilPjmotaZjZ3YiFPyfH6hQCxyGZFyWR2R9yOW6Yr9iHav/S2Xg8tr7j2YlwAUyCTwjNqm2YVUNBGk7WVWKkW5mhmKjtyPG28YlQJZ752TLSByeMWYCEsExLgaaIKhf8c1L6xKoLNoxsDdqG9S+xe+vR8Hkvt0Gwv4eMjsSfYN1ndDJNh4aZGxqbXIto48Rvr5wmCxhMecR0ZTEnZJsVMxM45eWV0bts7BpfldJII5+VYaBVjNiU6aTj7fwmrGvwlP"
+puppet_ssh_id_rsa_pub: "<InsertSSHKeyHere>"
 
 puppet_agent_run_interval: 3600
 
@@ -75,37 +75,9 @@ virtualbox_version: "VirtualBox-5.2"
 ts::ts_visit_simulator::sal_network_interface: "eth1"
 ts::ts_visit_simulator::branch: "develop"
 ts::ts:visit_simulator::path: "/opt/ts_visit_simulator"
-ts::ts_visit_simulator::id_rsa: |
-        -----BEGIN RSA PRIVATE KEY-----
-        MIIEogIBAAKCAQEA1EdSlU3gtqXmkPc98ZPRLmYQbk5g8ywjwJ4OmMiTKNRdURM8
-        jyIxWWzPGwHF7CY2lKrBbD784Ddn9j2QleZA2ov4Am17mv7kiAmwxRt7rSrH0mWc
-        q6SRX1YUmSaDvt3wBKh1pTnNht2AmAKThvZ9YAXmCWxV2VLczIPYsL5wu37AfySS
-        +cll00jaQyL6oAoxHAxqZ+m08N15mviC4Ujlh+dX9+Pki30V6xuygOrdrewCd7Pk
-        xjfJHdh3fvLDyAwOPDsNK6fAX5kJRjU2zlUds7SUOo1yp+YQbZk0O3C79ELlkCaO
-        fCwP5RrPlYE0fNGD3HlBOLpliVlHswNOi5I6bQIDAQABAoIBAHEUOUK9hInnYCYy
-        /nVUt6aOygvohq6jAbyWtdHfbrzeO4N3yte4cC9hzgVl8Wf1hze0qmqeNxi9iwza
-        CM5BJKUG0KuCZMjRJS3uc5LcLAq38k/6vvWUKbhuY3Sd1qpzEWt5zYmhfAFutxTC
-        spG/dlQTcFHuuuCUynfLeD/WgrjtOKlKytT2SbW9rJ4S+1ZY4afI0QkNr1eb9XDZ
-        QUQX7LlOTL6q105kSsn53/85wd80poLFfsP0r4EPv9EMXe9t8n1x4hWdojS0k3iw
-        8viRwsilnmNb+DA4xknq+NfozKbCgTFrMTQbJyoW1XmJ4/CDxbXFWIrCfRLkv8S5
-        YmBDtYECgYEA9dYWWXhvKXQcNX/KFoRCs63r2zfATXC9eXBM7ltJVf54paQxvghR
-        fBiJpY6jNJSP1hcMj7GnykUyyzRZgLMkhaspbYSyjXODj/WbUpDPoKHszoMiia71
-        QT9zFxl3U0nevsVO0D4p1vwD73b9933zoAjrzDhyejA2T+PwfB/JDOECgYEA3Q4Q
-        OcGjsTUJWts2JuT6iNP4h7lijAQue5p0p9m5bCsdthind2/Z2h2gIyg5B9c/9VN9
-        sSgZ9/SGbaPrdt5KI9axOnYdfqO7P4lmIYDPdejWcByrCjQw5xhgIFpNFpG+fHxN
-        4SMwhTy6kluox4Te8bnDIb4Bc3lUV9Zl44CD8w0CgYAM0zVpR4ItHHSYSelmEVJV
-        g15Jmnf60kXgPv6UdMi3psXuhkleC5sMqU8NBwr2pEV4us0Z9f+16rRCq6F7uFzQ
-        aGSJ5SFXhc44RWzr+sgKLkhnYan8mtcKp1++tcJm4vSu6SY6cPPH1m/yHzgSoEyE
-        bdK3Xb6DJ169/js+jn3zoQKBgGEkTP0Um1rEc9f5fVKaTX7Tp+P9E9F0BPlMZvdc
-        Np/SUrwzGWTjQlkXq8fHZUiMzw6AIjw34zGTw39rCY6zIOGe90M5pLyCN0c0mi0e
-        7gxixdl+v6s8REFJ9PRCup2wboVGGvNVA32JsnOe1AzZ1x9jAt1RIlIcf3QaQ6w2
-        TcYBAoGAEh695rUu11TADXlOLfEcJQw2+oWCzF2+xoRwLFIzS1tirRrk7LiWttij
-        kKGTQBE8clEilQAk2+BBqdkiEE1WRM/yFzi0g5/uEjBb7/YSirAp+mOLP9EWJDe2
-        VKtcemi67pnPWjEQOOigreDLzwJd3hnPzcstpThpaq6pQlUkZOc=
-        -----END RSA PRIVATE KEY-----
 
 # EFD
-
+#####################################################
 ts::efd::user: "efduser"
 
 ts::efd::user_pwd: "lssttest"
@@ -160,34 +132,7 @@ autosign_servers:
 control_repo: "https://github.com/lsst/itconf_l1ts.git"
 hiera_repo: "/root/hiera/.git"
 
-puppet_ssh_id_rsa: |
-        -----BEGIN RSA PRIVATE KEY-----
-        MIIEpAIBAAKCAQEA1Hx0Sw68fGpNwfAJSDsykc/SBqc3W5Vs9e5bgJ2fgc0mAC0y
-        T/bF4+C3PglUMY4c1K/MFiWeIUnvzSWfiE+24pT45qLWmY2d2IhT8nx+oUAschmR
-        clkdkfcjlumK/Yh2r/0tl4PLa+49mJcAFMgk8IzaptmFVDQRpO1lVipFuZoZio7c
-        jxtvGJUCWe+dky0gcnjFmAhLBMS4GmiCoX/HNS+sSqCzaMbA3ahvUvsXvr0fB5L7
-        dBsL+HjI7En2DdZ3QyTYeGmRsam1yLaOPEb6+cJgsYTHnEdGUxJ2SbFTMTOOXlld
-        G7bOwaX5XSSCOflWGgVYzYlOmk4+38Jqxr8JTwIDAQABAoIBACthjUyVoZ21BlMF
-        8p8wls52I2cAVKj6BNjg5QWJKLuTaqK2l4MD2rr/cenUdb/4R6KUkZIj8/jP44l6
-        mOt3etsflwFfVXjcFNHUY28qQ6AgPfK9jZhO4V6fmkCBRcMlTTX49onsemd6qFCy
-        421av0/tMebGmhXq239UiE/jKYEOua5c2iB4hYt+drYtC9YEf5UDVtxQGfFWWTSN
-        qTu8ub3qY8AihXqsW1JhsSdx6QYEi8EX6LDpovQy4UysC2+2aJnHEnsEggaN5Q4+
-        uDsgbES4ICdIrU+INc9L71okHuA4/lsteUMqAgs2N1bBWAVRPeggO+VrfYUMATTL
-        OE4xrqECgYEA9p1/giWgDoj/OAdefv419l+kOZh6EKIbcFDR00Jkfs8P0U5tE955
-        AqCWSk4m7Le0v8H8TxdH7sY4fSBM7nE1rYOJcmpmMEUtT1U8zwxj3PKOKgwIdKIr
-        MxzdGkkfWo+/kmP3a23x3isPKKMPXlZVgzjDPlii6VG+63k1XZxnUfMCgYEA3JJ5
-        Vz+4pA/aUiejEOaK1zyjL6Fw34OkGqeNslRaxrP0gZ+1Fa7Z1dWoFHdWuRKPHIEj
-        E1vwMuV0Tyw9d7xuHijr59Ax0MvFHPpAwnFPRM7eZ3w4C8xQeVCnuWiCzGN263Gf
-        d6yioVqo0//KUK+mhGiGrPvqFud86jrrZP9LJjUCgYEAraLAxyK0qec9Qva1Staz
-        qc83MrIvp4xro03UHlmNplclvOnqFOY772SfzJtv/pVttuHfQtSSegSoezkF0ZB2
-        CcAmQx+06WGbgFL0aJdBrKw++k3UmkIgBnHZHwvC/qFdcbXe243ikNliZ+s/A93n
-        gWey2C/SLFK5CNQjhdB8Uo8CgYAcUlZwRIdR0ZNH3z0J64BCWM/fSsxydrW4knEY
-        R8qMHwkzJ62ZxiTEVzXIwvYIt4BWuaImVzTFZD8F93lBCZneF4UK8+mhlLiPmvZ7
-        wQ7bl/Bou0N7CFYA7cFLhkbdNZxMaP9/31PWggyRhBOXPqaT89PvHD2XiUu5y6zz
-        /+/HTQKBgQCGZ1lecNEVGIYnvl4H66WfImAtars+QONU0nMQWgmQPwFegtApCOEm
-        Ya+wIb/vi8u/cj/+mrWeHIdVZq1c4lWN4TQ1ZxCW83bggOZ6TOA/w3OdCm8eK5H3
-        hsjMZMk5VAtVPok4mwo13sXbUo0emumd0Dt+XTFq2OOFp7oB3ToEMg==
-
+puppet_ssh_id_rsa: "CreateOneIfRequired"
 
 ts_sal::sal_network_interface: "eth1"
 
@@ -263,7 +208,7 @@ telegraf::inputs:
                 collect_cpu_time: false
                 report_active: false
         disk:
-                ignore_fs: 
+                ignore_fs:
                         - "tmpfs"
                         - "devtmpfs"
                         - "devfs"
