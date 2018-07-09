@@ -1,6 +1,6 @@
 CPUS="1"
 MEMORY="1024"
-VAGRANT_HOSTNAME="puppet-master.dev.lsst.org"
+VAGRANT_HOSTNAME="gs-puppet-master.vm.dev.lsst.org"
 
 
 $script = <<SCRIPT
@@ -9,11 +9,12 @@ $script = <<SCRIPT
 rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
 yum install -y puppetserver git
 sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
-systemctl enable puppetserver
-systemctl start puppetserver
+echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
+systemctl enable puppetserver
+systemctl start puppetserver
 sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
 /opt/puppetlabs/puppet/bin/gem install r10k
 mkdir -p /etc/puppetlabs/r10k/
@@ -39,6 +40,11 @@ echo -e "---
 
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
 
+# Registering against the puppet server and sending certificate
+/opt/puppetlabs/puppet/bin/puppet agent -t
+# Given that this newly created cert isnt' known by puppet master, we need to sign it.
+/opt/puppetlabs/puppet/bin/puppet cert sign -a
+# Asking for the catalog again
 /opt/puppetlabs/puppet/bin/puppet agent -t
 
 SCRIPT
