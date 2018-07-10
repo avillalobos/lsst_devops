@@ -59,13 +59,15 @@ ts_sal::firewall_dds_zone_name: "lsst_zone"
 ts_sal::ts_sal_path: "/opt/ts_sal"
 ts_sal::ts_opensplice_path: "/opt/ts_opensplice"
 ts_sal::ts_sal_repo: "https://github.com/lsst-ts/ts_sal.git"
-ts_sal::ts_sal_branch: "master"
+#ts_sal::ts_sal_branch: "master"
+ts_sal::ts_sal_branch: "develop"
 ts_sal::ts_opensplice_repo: "https://github.com/lsst-ts/ts_opensplice.git"
 ts_sal::ts_opensplice_branch: "master"
 
 ts_xml::ts_xml_path: "/opt/ts_xml"
 ts_xml::ts_xml_repo: "https://github.com/lsst-ts/ts_xml.git"
-ts_xml::ts_xml_branch: "master"
+#ts_xml::ts_xml_branch: "master"
+ts_xml::ts_xml_branch: "feature/ManCtrl_MPD_AuxTel"
 
 # Telescope & Site profile variables
 #####################################################
@@ -86,9 +88,11 @@ ts::efd::user: "efduser"
 ts::efd::user_pwd: "lssttest"
 
 ts::efd::ts_xml_subsystems:
-        - "dome"
-        - "domeADB"
-        - "domeLWS"
+        - "ocs"
+        - "efd"
+        - "atHeaderService"
+        - "atcamera"
+        - "atScheduler"
 
 ts::efd::ts_xml_languages:
         - "cpp"
