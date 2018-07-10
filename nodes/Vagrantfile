@@ -6,7 +6,8 @@ $script = <<SCRIPT
 #!/bin/bash
 
 PUPPET_ENV=$1
-
+sed "s/NM_CONTROLLED=yes/NM_CONTROLLED=no/" -i /etc/sysconfig/network-scripts/ifcfg-eth1
+systemctl restart NetworkManager
 # support RPM for puppetserver installation
 rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
 chmod 755 /opt/puppetlabs/puppet/cache/
