@@ -18,12 +18,11 @@ systemctl start puppetserver
 sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
 /opt/puppetlabs/puppet/bin/gem install r10k
 mkdir -p /etc/puppetlabs/r10k/
-mkdir /root/hiera
+mv /tmp/hiera /root/
 git init /root/hiera/
 cd /root/hiera
 git checkout -b develop
-cp /tmp/common.yaml /root/hiera/
-git add common.yaml
+git add .
 git commit -m "Initial Commit"
 
 echo -e "---
@@ -53,7 +52,7 @@ Vagrant.configure("2") do |config|
 	config.vm.define "puppet-master" do |puppet|
 		puppet.vm.box = "centos/7"
 		puppet.vm.hostname = VAGRANT_HOSTNAME
-		puppet.vm.provision "file", source: "./common.yaml", destination: "/tmp/common.yaml"
+		puppet.vm.provision "file", source: "./hiera", destination: "/tmp/hiera"
 		puppet.vm.provision "shell" do |s|
 			s.inline = $script
 			s.args = VAGRANT_HOSTNAME

@@ -1,0 +1,32 @@
+---
+
+
+ts_sal::sal_network_interface: "eth1"
+
+telegraf::inputs:
+        cpu:
+                percpu: true
+                totalcpu: true
+                collect_cpu_time: false
+                report_active: false
+        disk:
+                ignore_fs: 
+                        - "tmpfs"
+                        - "devtmpfs"
+                        - "devfs"
+        diskio:
+        kernel:
+        mem:
+        processes:
+        swap:
+        system:
+        internal:
+                collect_memstats: true
+        kernel_vmstat:
+        linux_sysctl_fs:
+        netstat:
+        nstat:
+        puppetagent:
+                location: "/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml"
+        io:
+        net:

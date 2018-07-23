@@ -1,0 +1,24 @@
+---
+# EFD
+#####################################################
+ts::efd::user: "efduser"
+
+ts::efd::user_pwd: "lssttest"
+
+ts::efd::ts_xml_subsystems:
+        - "ocs"
+        - "efd"
+        - "atHeaderService"
+        - "atcamera"
+        - "atScheduler"
+
+ts::efd::ts_xml_languages:
+        - "cpp"
+        - "html"
+
+ts::efd::ts_efd_writers:
+        - command
+        - event
+        - telemetry
+
+ts_sal::sal_network_interface: "eth1"

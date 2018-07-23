@@ -1,0 +1,56 @@
+---
+# Defaults will be over-written by per-guest values
+defaults:
+        box: centos/7
+        memory: 512
+        env:
+                PUPFROMDEFAULT: fromdefault
+
+nodes:
+        # ======================================================================
+        # Monitoring Cluster
+        # ======================================================================
+        influx:
+                hostname: "gs-influxdb-node-01.vm.dev.lsst.org"
+                ip: 10.0.0.251
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        grafana:
+                hostname: "gs-grafana-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.252"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        graylog:
+                hostname: "gs-graylog-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.253"
+                memory: 2048
+                cpu: 2
+                puppet_environment: "develop"
+
+        # ======================================================================
+        # Monitoring Cluster
+        # ======================================================================
+        EFD:
+                hostname: "ts-efd-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.10"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        ats-shutter-hcu:
+                hostname: "ats-shutter-hcu.vm.dev.lsst.org"
+                ip: "10.0.0.20"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        dm-hs:
+                hostname: "dm-hs-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.30"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"

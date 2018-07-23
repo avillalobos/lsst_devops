@@ -1,0 +1,83 @@
+---
+motd: |
+        Server installed on a SandBox
+                * Comments or suggestions to Andres Villalobos <avillalobos@lsst.org>
+                * Git Repo: https://github.com/avillalobos/lsst_devops
+                * Puppet Server:  10.0.0.250 <vagrant up>
+                * Influx Server:  10.0.0.251 <vagrant up influx>
+                * Grafana Server: 10.0.0.252 <vagrant up grafana>
+                * Graylog Server: 10.0.0.253 <vagrant up graylog>
+
+ntp:
+        ntp_server_1 : "0.south-america.pool.ntp.org"
+        ntp_server_2 : "0.north-america.pool.ntp.org"
+        ntp_server_3 : "1.north-america.pool.ntp.org"
+
+#Password generated as: openssl passwd -1 -salt LSST <PWD>
+# Admin passwords
+#root4u
+root_pwd: "$1$LSST$B1iDiSUKZsUJUPLHpj2Cl/"
+#Bnice2me
+lsst_sysadmin_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
+
+# Sal/LSST Passwords - Bnice2me
+lsstmgr_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
+tcsmgr_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
+tcs_pwd: "$1$PMfYrt2j$DAkeHmsz1q5h2XUsMZ9xn."
+
+puppet_ssh_id_rsa_pub: "<InsertSSHKeyHere>"
+
+puppet_agent_run_interval: 3600
+
+puppet_master_server: "puppet-master.dev.lsst.org"
+puppet_agent_service_state: "running"
+
+firewalld_status: "stopped"
+
+#=============================================================================
+# Monitoring Configuration
+#=============================================================================
+# Remote Logging and Graylog Configuration
+#=============================================================================
+rsyslog_host: "10.0.0.253"
+rsyslog_port: "5514"
+rsyslog_proto: "udp"
+rsyslog_patterns: "*.info;mail.none;authpriv.none;cron.none"
+
+#=============================================================================
+# Telegraf common configuration
+
+monitoring_enabled: true
+
+telegraf::global_tags:
+        service: "%{::service}"
+        cluster: "%{::cluster}"
+        device: "%{::device}"
+        service_number: "%{::service_number}"
+        device_number: "%{::device_number}"
+        node_name: "%{::node_name}"
+        datacenter: "%{::datacenter}"
+        enclave: "%{::enclave}"
+        country: "%{::country}"
+        room: "%{::room}"
+        rack: "%{::rack}"
+        type: "%{::virtual}"
+telegraf::interval: "1m"
+telegraf::round_interval: true
+telegraf::metric_batch_size: 1000
+telegraf::metric_buffer_limit: 10000
+telegraf::collection_jitter: "0s"
+telegraf::flush_interval: "1m"
+telegraf::flush_jitter: "0m"
+telegraf::debug: false
+telegraf::quiet: false
+telegraf::hostname: ""
+telegraf::omit_hostname: false
+telegraf::outputs:
+        influxdb:
+                urls:
+                        - "https://10.0.0.251:8086"
+                database: 'telegraf'
+                username: 'telegraf'
+                password: 'Bnice2me'
+                insecure_skip_verify: true
