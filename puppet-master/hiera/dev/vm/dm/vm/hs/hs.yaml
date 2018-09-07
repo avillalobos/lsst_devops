@@ -1,9 +1,6 @@
 ---
 # Data Management profile variables
 #####################################################
-monitoring_enabled: false
-
-firewalld_status: "stopped"
 
 dm::dm_header_service::ts_xml_subsystems:
         - "ocs"
@@ -16,7 +13,15 @@ dm::dm_header_service::ts_xml_languages:
         - "cpp"
         - "python"
 
+#TODO Testing variables, to be removed
+
+ts_sal::sal_network_interface: "eth0"
+
+monitoring_enabled: false
+
+firewalld_status: "stopped"
+
 # Custom SAL Python Version
-ts_sal::ts_python_build_version: "2.7"
-ts_sal::ts_python_build_location: "/usr"
-ts_sal::ts_pythonpath: "" 
+#ts_sal::ts_python_build_version: "2.7"
+#ts_sal::ts_python_build_location: "/usr"
+#ts_sal::ts_pythonpath: "" 

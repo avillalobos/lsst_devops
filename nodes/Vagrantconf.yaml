@@ -31,6 +31,13 @@ nodes:
                 cpu: 2
                 puppet_environment: "develop"
 
+        graylog-tls:
+                hostname: "gs-graylog-node-02.vm.dev.lsst.org"
+                ip: "10.0.0.2"
+                memory: 2048
+                cpu: 2
+                puppet_environment: "graylog_tls"
+
         # ======================================================================
         # Monitoring Cluster
         # ======================================================================

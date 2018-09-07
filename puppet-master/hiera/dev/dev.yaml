@@ -32,7 +32,7 @@ puppet_agent_run_interval: 3600
 puppet_master_server: "puppet-master.dev.lsst.org"
 puppet_agent_service_state: "running"
 
-firewalld_status: "stopped"
+firewalld_status: "running"
 
 #=============================================================================
 # Monitoring Configuration
