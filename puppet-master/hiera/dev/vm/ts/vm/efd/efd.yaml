@@ -6,19 +6,22 @@ ts::efd::user: "efduser"
 ts::efd::user_pwd: "lssttest"
 
 ts::efd::ts_xml_subsystems:
-        - "ocs"
-        - "efd"
         - "atHeaderService"
-        - "atcamera"
-        - "atScheduler"
 
 ts::efd::ts_xml_languages:
         - "cpp"
         - "html"
+        - "python"
 
 ts::efd::ts_efd_writers:
         - command
         - event
         - telemetry
 
-ts_sal::sal_network_interface: "eth1"
+#TODO Testing variables, to be removed
+
+ts_sal::sal_network_interface: "eth0"
+
+monitoring_enabled: false
+
+firewalld_status: "stopped"
