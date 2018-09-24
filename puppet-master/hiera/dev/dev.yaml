@@ -45,6 +45,39 @@ rsyslog_proto: "udp"
 rsyslog_patterns: "*.info;mail.none;authpriv.none;cron.none"
 
 #=============================================================================
+# Authentication
+
+IMS_Configuration:
+        SSSD:
+                sssd:
+                        - domains: ldap.ncsa.illinois.edu
+                        - config_file_version: 2
+                        - services: nss, pam
+                nss:
+                        - filter_groups: root
+                        - filter_users: root
+                        - override_homedir: /home/%u
+                        - allowed_shells: /bin/bash, bin/zsh
+                        - shell_fallback: /bin.bash
+                        - override_shell: /bin/bash
+                        - reconnection_retries: 3
+                'domain/ldap.ncsa.illinois.edu': 
+                        - debug_level: 3
+                        - timeout: 60
+                        - enumerate: false
+                        - id_provider: ldap
+                        - auth_provider: ldap
+                        - ldap_uri: ldaps://ldap.ncsa.illinois.edu
+                        - ldap_search_base: dc=ncsa,dc=illinois,dc=edu
+                        - ldap_tls_reqcert: demand
+                        - ldap_tls_cacert: /etc/pki/ca-trust/source/anchors/incommon-ca.pem
+                        - ldap_schema: rfc2307bis
+                        - ldap_group_member: uniqueMember
+                        - access_provider: simple
+                        - simple_allow_groups: prj_cerb_users
+                        - simple_deny_groups: all_disabled_usr
+
+#=============================================================================
 # Telegraf common configuration
 
 monitoring_enabled: true

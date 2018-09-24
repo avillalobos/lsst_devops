@@ -8,7 +8,26 @@ graylog_server_password_secret: "root4uroot4uroot4u"
 #echo -n "root4u" | sha256sum
 graylog_server_root_password_sha2: "ada6995028c231eff4f2bf1b647b2e120459d0ea972138e89ad394f6e8698b8c"
 
-graylog_url: 10.0.0.253
+graylog_java_opts: "-Xms1g -Xmx1g -XX:NewRatio=1 -server -XX:+ResizeTLAB -XX:+UseConcMarkSweepGC -XX:+CMSConcurrentMTEnabled -XX:+CMSClassUnloadingEnabled -XX:+UseParNewGC -XX:-OmitStackTraceInFastThrow"
+
+##########################################################
+# SSL Certificate variables
+country: CL
+state: Coquimbo
+locality: "La Serena"
+organization: "LSST"
+division: IT
+canonical_name: "10.0.0.253" # Also used to decide the URL for Graylog's web 
+server_ip_address: 10.0.0.253
+alternative_dns_1: "graylog.cl.lsst.org"
+
+certificate_duration: 3650
+ssl_key_algorithm: "rsa:2048"
+ssl_passout_phrase: "pass:secret"
+ssl_key_passout_phrase: "pass:secret"
+ssl_graylog_cert_pass: changeit
+
+##########################################################
 
 #firewall configuration
 
