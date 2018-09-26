@@ -16,3 +16,30 @@ ccsApplications:
 ccsGlobalProperties:
         - org.lsst.ccs.logdir : /var/log/ccs
         - org.lsst.ccs.level : INFO
+
+firewalld::zones:
+        internal:
+                target: DROP
+                ensure: present
+                interfaces: eth0
+
+firewalld::ports:
+        'Opening port 26969 for CCS':
+                ensure: present
+                zone: internal
+                port: 26969
+                protocol: 'udp'
+        'Opening port 36969 for CCS':
+                ensure: present
+                zone: internal
+                port: 36969
+                protocol: 'udp'
+        'Opening port 46969 for CCS':
+                ensure: present
+                zone: internal
+                port: 46969
+                protocol: 'udp'
+
+
+monitored_services:
+        - demo-subsystem

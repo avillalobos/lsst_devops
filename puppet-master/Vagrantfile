@@ -10,14 +10,20 @@ rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
 yum install -y puppetserver git
 sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
 echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
-echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[main]\nenvironment = TSEIA_57_avillalobos" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
 systemctl enable puppetserver
 systemctl start puppetserver
 sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
+/opt/puppetlabs/puppet/bin/gem install cri -v 2.12.0
 /opt/puppetlabs/puppet/bin/gem install r10k
 mkdir -p /etc/puppetlabs/r10k/
+if [ -d /root/hiera ]
+then 
+	echo "Hiera repo exists, deleted to be overwritten"
+	rm -rvf /root/hiera 
+fi
 mv /tmp/hiera /root/
 git init /root/hiera/
 cd /root/hiera
@@ -38,6 +44,15 @@ echo -e "---
 " > /etc/puppetlabs/r10k/r10k.yaml
 
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
+
+for f in $(ls -1 /etc/puppetlabs/code/environments/)
+do 
+	if [ ! -d "/etc/puppetlabs/code/hieradata/$f" ]
+	then
+		echo "dir $f don't exists, creating it from develop"
+		cp -rvf /etc/puppetlabs/code/hieradata/develop /etc/puppetlabs/code/hieradata/$f
+	fi
+done
 
 # Registering against the puppet server and sending certificate
 /opt/puppetlabs/puppet/bin/puppet agent -t

@@ -2,7 +2,7 @@
 # CCS Configurtion
 ##########################################################
 
-monitoring_enabled: false
+monitoring_enabled: true
 
 ccs::java_version_major: "8u181"
 ccs::java_version_minor: "b13"
