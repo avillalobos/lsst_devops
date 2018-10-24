@@ -16,7 +16,7 @@ echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
 systemctl enable puppetserver
 systemctl start puppetserver
 sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
-/opt/puppetlabs/puppet/bin/gem install cri -v 2.12.0
+#/opt/puppetlabs/puppet/bin/gem install cri -v 2.12.0
 /opt/puppetlabs/puppet/bin/gem install r10k
 mkdir -p /etc/puppetlabs/r10k/
 if [ -d /root/hiera ]

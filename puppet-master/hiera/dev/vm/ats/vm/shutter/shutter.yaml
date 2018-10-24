@@ -17,6 +17,11 @@ ccsGlobalProperties:
         - org.lsst.ccs.logdir : /var/log/ccs
         - org.lsst.ccs.level : INFO
 
+udpCCSProperties:
+        - org.lsst.ccs.jgroups.ALL.UDP.bind_addr: "%{::ipaddress}"
+        - org.lsst.ccs.jgroups.ALL.UDP.bind_port: 45500
+        - org.lsst.ccs.jgroups.ALL.UDP.port_range: 50
+
 firewalld::zones:
         internal:
                 target: DROP
@@ -38,6 +43,16 @@ firewalld::ports:
                 ensure: present
                 zone: internal
                 port: 46969
+                protocol: 'udp'
+        'Opening port 45588 for CCS':
+                ensure: present
+                zone: internal
+                port: 45588
+                protocol: 'udp'
+        'Opening port 45000-45550 for CCS':
+                ensure: present
+                zone: internal
+                port: 45500-45550
                 protocol: 'udp'
 
 
