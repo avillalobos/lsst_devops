@@ -1,0 +1,47 @@
+---
+# CCS Configurtion
+##########################################################
+
+monitoring_enabled: true
+
+ccs::java_version_major: "8u191"
+ccs::java_version_minor: "b12"
+ccs::java_url_hash: "2787e4a523244c269598db4e85c51e0c"
+
+ccsInstallationDir: '/lsst/ccs/prod'
+
+#################################################################################
+
+ccs_systemd_units:
+        demo-subsystem.service:
+                serviceDescription: "Demo subsystem to test CCS deployments"
+                serviceCommand: "demo-subsystem"
+
+ccsApplications:
+        - "org-lsst-ccs-ats-software-main" : 1.0.0
+        - "org-lsst-ccs-ats-software-gui" : 1.0.0
+        - "executable.ccs-console" : org-lsst-ccs-ats-software-gui
+        - "executable.ccs-shell" : org-lsst-ccs-ats-software-gui
+        - "executable.ccs-script": org-lsst-ccs-ats-software-main
+
+# Making sure that you can configure further applications in lower hierachies
+lookup_options:
+        ccsApplications:
+                merge:
+                        strategy: deep
+                        merge_hash_arrays: true
+        ccs_systemd_units:
+                merge:
+                        strategy: deep
+                        merge_hash_arrays: true
+
+#################################################################################
+
+ccsGlobalProperties:
+        - org.lsst.ccs.logdir : /var/log/ccs
+        - org.lsst.ccs.level : INFO
+
+udpCCSProperties:
+        - org.lsst.ccs.jgroups.ALL.UDP.bind_addr: "%{::ipaddress}"
+        - org.lsst.ccs.jgroups.ALL.UDP.bind_port: 45500
+        - org.lsst.ccs.jgroups.ALL.UDP.port_range: 50

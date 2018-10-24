@@ -54,3 +54,11 @@ nodes:
                 memory: 1024
                 cpu: 1
                 puppet_environment: "develop"
+
+        ats-ccs-localdb:
+                hostname: "ats-ccs-localdb.vm.dev.lsst.org"
+                ip: "10.0.0.40"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "TSEIA_57_avillalobos"
+
