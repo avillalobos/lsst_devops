@@ -10,7 +10,7 @@ rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
 yum install -y puppetserver git
 sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
 echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
-echo -e "\n[main]\nenvironment = TSEIA_57_avillalobos" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
 systemctl enable puppetserver

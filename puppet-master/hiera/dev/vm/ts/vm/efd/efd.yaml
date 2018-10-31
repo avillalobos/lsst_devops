@@ -7,6 +7,9 @@ ts::efd::user_pwd: "lssttest"
 
 ts::efd::ts_xml_subsystems:
         - "atHeaderService"
+        - "dome"
+        - "domeADB"
+        - "domeLWS"
 
 ts::efd::ts_xml_languages:
         - "cpp"
