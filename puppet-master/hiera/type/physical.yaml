@@ -1,7 +1,6 @@
 ---
 
-
-ts_sal::sal_network_interface: "eth1"
+ts_sal::sal_network_interface: "ens224"
 
 telegraf::inputs:
         cpu:
@@ -28,6 +27,11 @@ telegraf::inputs:
         nstat:
         puppetagent:
                 location: "/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml"
+        sensors:
+                remove_numbers: false
+        smart:
+                path: "/usr/sbin/smartctl"
+                use_sudo: true
         io:
         net:
 

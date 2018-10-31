@@ -1,0 +1,38 @@
+---
+
+firewalld::zones:
+        internal:
+                target: DROP
+                ensure: present
+                interfaces: eth0
+
+firewalld::ports:
+        'Opening port 26969 for CCS':
+                ensure: present
+                zone: internal
+                port: 26969
+                protocol: 'udp'
+        'Opening port 36969 for CCS':
+                ensure: present
+                zone: internal
+                port: 36969
+                protocol: 'udp'
+        'Opening port 46969 for CCS':
+                ensure: present
+                zone: internal
+                port: 46969
+                protocol: 'udp'
+        'Opening port 45588 for CCS':
+                ensure: present
+                zone: internal
+                port: 45588
+                protocol: 'udp'
+        'Opening port 45000-45550 for CCS':
+                ensure: present
+                zone: internal
+                port: 45500-45550
+                protocol: 'udp'
+
+
+monitored_services:
+        - demo-subsystem

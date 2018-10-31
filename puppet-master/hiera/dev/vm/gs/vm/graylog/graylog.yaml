@@ -1,25 +1,25 @@
 ---
-elasticsearch_xms: "512m"
-elasticsearch_xmx: "512m"
+elasticsearch_xms: "2048m"
+elasticsearch_xmx: "2048m"
 
 #This password must have at least 16 characters
-graylog_server_password_secret: "root4uroot4uroot4u"
+graylog_server_password_secret: "thisisahardpassword"
 
-#echo -n "root4u" | sha256sum
-graylog_server_root_password_sha2: "ada6995028c231eff4f2bf1b647b2e120459d0ea972138e89ad394f6e8698b8c"
+#echo -n "hardtimes"| shasum -a 256
+graylog_server_root_password_sha2: "5aa9b3cee036574d67676a304b05b51c857d49654513aa9d76b50a656dd77ec1"
 
 graylog_java_opts: "-Xms1g -Xmx1g -XX:NewRatio=1 -server -XX:+ResizeTLAB -XX:+UseConcMarkSweepGC -XX:+CMSConcurrentMTEnabled -XX:+CMSClassUnloadingEnabled -XX:+UseParNewGC -XX:-OmitStackTraceInFastThrow"
 
 ##########################################################
 # SSL Certificate variables
-country: CL
-state: Coquimbo
-locality: "La Serena"
+country: DV
+state: VM
+locality: "Development"
 organization: "LSST"
 division: IT
-canonical_name: "10.0.0.253" # Also used to decide the URL for Graylog's web 
+canonical_name: "10.0.0.253" # Also used to decide the URL for Graylog's web
 server_ip_address: 10.0.0.253
-alternative_dns_1: "graylog.cl.lsst.org"
+alternative_dns_1: "graylog.dev.lsst.org"
 
 certificate_duration: 3650
 ssl_key_algorithm: "rsa:2048"
@@ -37,7 +37,6 @@ firewalld::zones:
                 target: 'DROP'
                 sources:
                         - 192.168.255.0/29
-                        - 140.252.32.0/24
 
 firewalld::ports:
         'Opening port for Graylog service':

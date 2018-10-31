@@ -27,8 +27,7 @@ ts_xml::ts_xml_branch: "master"
 #Password generated as: openssl passwd -1 -salt LSST <PWD>
 #Bnice2me
 ts_sal::sal_pwd: "$1$LSST$HYme564rL6LjMkjrDNGUb0"
-#new2me
-ts_sal::salmgr_pwd: "$1$LSST$KHDJ07GNKg8bNYnhv8FwM."
+ts_sal::salmgr_pwd: "$1$LSST$HYme564rL6LjMkjrDNGUb0"
 
 #Make sure SAL uses the desired network interface
 ts_sal::sal_network_interface: "eth1"

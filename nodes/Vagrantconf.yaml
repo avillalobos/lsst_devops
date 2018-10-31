@@ -31,13 +31,6 @@ nodes:
                 cpu: 2
                 puppet_environment: "develop"
 
-        graylog-tls:
-                hostname: "gs-graylog-node-02.vm.dev.lsst.org"
-                ip: "10.0.0.2"
-                memory: 2048
-                cpu: 2
-                puppet_environment: "graylog_tls"
-
         # ======================================================================
         # Monitoring Cluster
         # ======================================================================
@@ -53,7 +46,6 @@ nodes:
                 ip: "10.0.0.20"
                 memory: 1024
                 cpu: 1
-                puppet_environment: "develop"
 
         dm-hs:
                 hostname: "dm-hs-node-01.vm.dev.lsst.org"
@@ -61,3 +53,11 @@ nodes:
                 memory: 1024
                 cpu: 1
                 puppet_environment: "develop"
+
+        ats-ccs-localdb:
+                hostname: "ats-ccs-localdb-01.vm.dev.lsst.org"
+                ip: "10.0.0.40"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "TSEIA_57_avillalobos"
+

@@ -2,8 +2,8 @@
 # CCS Configurtion
 ##########################################################
 
-monitoring_enabled: false
+monitoring_enabled: true
 
-ccs::java_version_major: "8u181"
-ccs::java_version_minor: "b13"
-ccs::java_url_hash: "96a7b8442fe848ef90c96a2fad6ed6d1"
+ccs::java_version_major: "8u191"
+ccs::java_version_minor: "b12"
+ccs::java_url_hash: "2787e4a523244c269598db4e85c51e0c"

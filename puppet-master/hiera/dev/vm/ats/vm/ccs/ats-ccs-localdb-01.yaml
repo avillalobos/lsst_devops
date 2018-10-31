@@ -1,0 +1,49 @@
+---
+
+# CCS Extended confiuration
+#################################################################################
+
+ccs_systemd_units:
+        localdb.service:
+                serviceDescription: "CCS Trending Ingest Module"
+                serviceCommand: "localdb"
+        rest-server.service:
+                serviceDescription: "CCS Local Rest Services"
+                serviceCommand: "rest-server"
+
+monitored_services:
+        - localdb
+        - rest-server
+
+#Generic configurations comes from CCS Generic configuration
+ccsApplications:
+        - "executable.localdb" : org-lsst-ccs-ats-software-main
+        - "executable.rest-server" : org-lsst-ccs-ats-software-main
+
+#################################################################################
+
+localdb_username: ccs # Same username as localdb.statusPersister.properties.hibernate.connection.username
+localdb_password: lsst # Same username as localdb.statusPersister.properties.hibernate.connection.password
+localdb_dbname: atsccsdb
+
+localdb:
+        ccsGlobal:
+                filepath: /etc/ccs/ccsGlobal.properties
+                properties:
+                        - org.lsst.ccs.dbUrl : "jdbc:mysql://atsccs1.lsst.org:3306/atsccsdb?user=ccs&password=lsst&autoReconnect=true"
+        statusPersister:
+                filepath: /etc/ccs/statusPersister.properties
+                properties:
+                        - hibernate.connection.driver_class : com.mysql.jdbc.Driver
+                        - hibernate.dialect : org.hibernate.dialect.MySQLDialect
+                        - hibernate.connection.url : jdbc:mysql://localhost:3306/atsccsdb
+                        - hibernate.connection.username : ccs # Same as username above
+                        - hibernate.connection.password : HighlySecurePasswordForDemoTests # Sames as password above
+        TrendingIngestModule:
+                filepath: /etc/ccs/TrendingIngestModule.properties
+                properties:
+                        - org.lsst.ccs.application.mainClass : "org.lsst.ccs.startup.SubsystemBoot"
+                        - org.lsst.ccs.application.args : "--description localdb"
+                        - org.lsst.ccs.application.description : "Start the Trending Ingest module."
+                        - org.lsst.ccs.localdb.additional.classpath.entry : "/lsst/ccs/prod/org-lsst-ccs-ats-software-main-1.0.0/share/java/mysql-connector-java-5.1.23.jar"
+                        - org.lsst.ccs.level : "WARNING"
