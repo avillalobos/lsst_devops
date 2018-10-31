@@ -1,5 +1,5 @@
 CPUS="1"
-MEMORY="1024"
+MEMORY="2048"
 VAGRANT_HOSTNAME="gs-puppet-master.vm.dev.lsst.org"
 
 
