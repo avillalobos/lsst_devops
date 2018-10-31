@@ -23,7 +23,7 @@ ts::efd::ts_efd_writers:
 
 #TODO Testing variables, to be removed
 
-ts_sal::sal_network_interface: "eth0"
+ts_sal::sal_network_interface: "eth1"
 
 monitoring_enabled: false
 
