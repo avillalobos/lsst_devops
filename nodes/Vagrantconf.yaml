@@ -15,7 +15,7 @@ nodes:
                 ip: 10.0.0.251
                 memory: 1024
                 cpu: 1
-                puppet_environment: "develop"
+                puppet_environment: "TSEIA_57_avillalobos"
 
         grafana:
                 hostname: "gs-grafana-node-01.vm.dev.lsst.org"
@@ -46,6 +46,7 @@ nodes:
                 ip: "10.0.0.20"
                 memory: 1024
                 cpu: 1
+                puppet_environment: "TSEIA_57_avillalobos"
 
         dm-hs:
                 hostname: "dm-hs-node-01.vm.dev.lsst.org"
