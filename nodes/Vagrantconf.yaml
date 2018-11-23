@@ -69,3 +69,9 @@ nodes:
                 cpu: 1
                 puppet_environment: "develop"
 
+        dhcp-master:
+                hostname: "gs-dhcp-master.vm.dev.lsst.org"
+                ip: "10.0.0.249"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_939_avillalobos"

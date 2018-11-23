@@ -1,0 +1,14 @@
+---
+
+failover_configuration: |
+        failover peer "failover-partner" {
+                secondary;
+                address gs-dhcp-slave.cp.cl.lsst.org;
+                port 548;
+                peer address gs-dhcp-master.cp.cl.lsst.org;
+                peer port 547;
+                max-response-delay 60;
+                max-unacked-updates 10;
+                mclt 3600;
+                load balance max seconds 3;
+        }
