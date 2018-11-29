@@ -15,6 +15,13 @@ autosign_servers:
 control_repo: "https://github.com/lsst/itconf_l1ts.git"
 hiera_repo: "/root/hiera/.git"
 
+puppet_enc_repo: https://github.com/lsst-dm/puppet-enc.git
+puppet_enc_branch: avillalobos_enc_improvement 
+puppet_enc_path: '/etc/puppetlabs/code/enc/'
+
+puppet_enc_config_repo: https://github.com/lsst/cl_puppet_nodes_database.git
+puppet_enc_config_branch: master
+
 # This is to avoid issues while creating puppet master, however the key doesn't
 # contain any meaningful value
 hiera_repo_id_path: "/root/.ssh/id_rsa"

@@ -13,53 +13,59 @@ echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet
 echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
-systemctl enable puppetserver
-systemctl start puppetserver
+
 sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
-#/opt/puppetlabs/puppet/bin/gem install cri -v 2.12.0
 /opt/puppetlabs/puppet/bin/gem install r10k
-mkdir -p /etc/puppetlabs/r10k/
-if [ -d /root/hiera ]
-then 
-	echo "Hiera repo exists, deleted to be overwritten"
-	rm -rvf /root/hiera 
+
+if [ ! -d /etc/puppetlabs/r10k/ ]
+then
+	mkdir -p /etc/puppetlabs/r10k/
 fi
-mv /tmp/hiera /root/
-git init /root/hiera/
-cd /root/hiera
-git checkout -b develop
-git add .
-git commit -m "Initial Commit"
+
+if [ ! -d /etc/puppetlabs/code/hieradata/ ]
+then
+	mkdir -p /etc/puppetlabs/code/hieradata/
+fi
+
+if [ ! -d /etc/puppetlabs/code/hieradata/develop ]
+then
+	ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/develop 
+fi
 
 echo -e "---
 :cachedir: '/var/cache/r10k'
 
+# Hiera repo not configured thru r10k since is leveraging a shared folder
 :sources:
   :lsst.org:
     remote: 'https://github.com/lsst/itconf_l1ts.git'
     basedir: '/etc/puppetlabs/code/environments'
-  :lsst_hiera:
-    remote: '/root/hiera/.git'
-    basedir: '/etc/puppetlabs/code/hieradata'
 " > /etc/puppetlabs/r10k/r10k.yaml
 
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
 
 for f in $(ls -1 /etc/puppetlabs/code/environments/)
-do 
+do
+	echo "Found environment $f"
 	if [ ! -d "/etc/puppetlabs/code/hieradata/$f" ]
 	then
 		echo "dir $f don't exists, creating it from develop"
-		cp -rvf /etc/puppetlabs/code/hieradata/develop /etc/puppetlabs/code/hieradata/$f
+		ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$f
 	fi
 done
+
+systemctl enable puppetserver
+systemctl start puppetserver
 
 # Registering against the puppet server and sending certificate
 /opt/puppetlabs/puppet/bin/puppet agent -t
 # Given that this newly created cert isnt' known by puppet master, we need to sign it.
+# After the puppet master is puppetized, it comes with a autocert configuration
 /opt/puppetlabs/puppet/bin/puppet cert sign -a
 # Asking for the catalog again
 /opt/puppetlabs/puppet/bin/puppet agent -t
+
+systemctl restart puppetserver
 
 SCRIPT
 
@@ -67,7 +73,6 @@ Vagrant.configure("2") do |config|
 	config.vm.define "puppet-master" do |puppet|
 		puppet.vm.box = "centos/7"
 		puppet.vm.hostname = VAGRANT_HOSTNAME
-		puppet.vm.provision "file", source: "./hiera", destination: "/tmp/hiera"
 		puppet.vm.provision "shell" do |s|
 			s.inline = $script
 			s.args = VAGRANT_HOSTNAME
