@@ -1,89 +1,20 @@
-CPUS="1"
-MEMORY="2048"
-VAGRANT_HOSTNAME="gs-puppet-master.vm.dev.lsst.org"
+require 'yaml'
+require 'pp'
 
-
-$script = <<SCRIPT
-#!/bin/bash
-
-rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
-yum install -y puppetserver git
-sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
-echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
-echo -e "\n[main]\nenvironment = develop" >> /etc/puppetlabs/puppet/puppet.conf
-echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
-echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
-
-sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
-/opt/puppetlabs/puppet/bin/gem install r10k
-
-if [ ! -d /etc/puppetlabs/r10k/ ]
-then
-	mkdir -p /etc/puppetlabs/r10k/
-fi
-
-if [ ! -d /etc/puppetlabs/code/hieradata/ ]
-then
-	mkdir -p /etc/puppetlabs/code/hieradata/
-fi
-
-if [ ! -d /etc/puppetlabs/code/hieradata/develop ]
-then
-	ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/develop 
-fi
-
-echo -e "---
-:cachedir: '/var/cache/r10k'
-
-# Hiera repo not configured thru r10k since is leveraging a shared folder
-:sources:
-  :lsst.org:
-    remote: 'https://github.com/lsst/itconf_l1ts.git'
-    basedir: '/etc/puppetlabs/code/environments'
-" > /etc/puppetlabs/r10k/r10k.yaml
-
-/opt/puppetlabs/puppet/bin/r10k deploy environment -p
-
-for f in $(ls -1 /etc/puppetlabs/code/environments/)
-do
-	echo "Found environment $f"
-	if [ ! -d "/etc/puppetlabs/code/hieradata/$f" ]
-	then
-		echo "dir $f don't exists, creating it from develop"
-		ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$f
-	fi
-done
-
-systemctl enable puppetserver
-systemctl start puppetserver
-
-# Registering against the puppet server and sending certificate
-/opt/puppetlabs/puppet/bin/puppet agent -t
-# Given that this newly created cert isnt' known by puppet master, we need to sign it.
-# After the puppet master is puppetized, it comes with a autocert configuration
-/opt/puppetlabs/puppet/bin/puppet cert sign -a
-# Asking for the catalog again
-/opt/puppetlabs/puppet/bin/puppet agent -t
-
-systemctl restart puppetserver
-
-SCRIPT
+conf = YAML.load_file( "Puppetconf.yaml" )
+Puppetconf = conf["puppet-master"]
 
 Vagrant.configure("2") do |config|
 	config.vm.define "puppet-master" do |puppet|
 		puppet.vm.box = "centos/7"
-		puppet.vm.hostname = VAGRANT_HOSTNAME
-		puppet.vm.provision "shell" do |s|
-			s.inline = $script
-			s.args = VAGRANT_HOSTNAME
-		end
-
-		puppet.vm.network "private_network", ip: "10.0.0.250"
+		puppet.vm.hostname = Puppetconf["hostname"]
+		puppet.vm.provision :shell, :path => 'provision-script.sh', :args => [Puppetconf["puppet_environment"], Puppetconf["ip"]]
+		puppet.vm.network "private_network", ip: Puppetconf["ip"]
 		puppet.ssh.forward_x11 = true
 		puppet.vm.provider "virtualbox" do |v|
-			v.name = VAGRANT_HOSTNAME
-			v.memory = MEMORY
-			v.cpus = CPUS
+			v.name = Puppetconf["hostname"]
+			v.memory = Puppetconf["memory"]
+			v.cpus = Puppetconf["cpu"]
 		end
 	end
 end
