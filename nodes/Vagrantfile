@@ -25,13 +25,13 @@ sed "s/NM_CONTROLLED=yes/NM_CONTROLLED=no/" -i /etc/sysconfig/network-scripts/if
 systemctl restart NetworkManager
 # support RPM for puppetserver installation
 rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
-chmod 755 /opt/puppetlabs/puppet/cache/
 # puppet installation plus some other utilities
 yum install -y puppet-agent vim git xauth
 echo -e "\n[main]\nenvironment = $PUPPET_ENV" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
 echo -e "10.0.0.250\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
 /opt/puppetlabs/puppet/bin/puppet agent -t
+chmod 755 /opt/puppetlabs/puppet/cache/
 SCRIPT
 
 ###################################################
