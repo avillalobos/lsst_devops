@@ -1,0 +1,12 @@
+---
+# Defaults will be over-written by per-guest values
+defaults:
+        box: centos/7
+        memory: 512
+
+puppet-master:
+        hostname: "gs-puppet-master.vm.dev.lsst.org"
+        ip: 10.0.0.250
+        memory: 1024
+        cpu: 1
+        puppet_environment: "IT_940_avillalobos"
