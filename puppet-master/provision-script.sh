@@ -1,0 +1,65 @@
+#!/bin/bash
+
+ENVIRONMENT=$1
+IP=$2
+
+rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+yum install -y puppetserver git
+sed -i 's#\-Xms2g#\-Xms512m#g;s#\-Xmx2g#\-Xmx512m#g' /etc/sysconfig/puppetserver
+echo -e "certname = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[main]\nenvironment = ${ENVIRONMENT}" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "\n[agent]\nserver = puppet-master.dev.lsst.org" >> /etc/puppetlabs/puppet/puppet.conf
+echo -e "${IP}\tpuppet-master\tpuppet-master.dev.lsst.org" > /etc/hosts
+
+sed -i 's#^PATH=.*#PATH=$PATH:/opt/puppetlabs/puppet/bin:$HOME/bin#g' /root/.bash_profile
+/opt/puppetlabs/puppet/bin/gem install r10k
+
+if [ ! -d /etc/puppetlabs/r10k/ ]
+then
+	mkdir -p /etc/puppetlabs/r10k/
+fi
+
+if [ ! -d /etc/puppetlabs/code/hieradata/ ]
+then
+	mkdir -p /etc/puppetlabs/code/hieradata/
+fi
+
+if [ ! -d /etc/puppetlabs/code/hieradata/$ENVIRONMENT ]
+then
+	ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$ENVIRONMENT
+fi
+
+echo -e "---
+:cachedir: '/var/cache/r10k'
+
+# Hiera repo not configured thru r10k since is leveraging a shared folder
+:sources:
+  :lsst.org:
+    remote: 'https://github.com/lsst/itconf_l1ts.git'
+    basedir: '/etc/puppetlabs/code/environments'
+" > /etc/puppetlabs/r10k/r10k.yaml
+
+/opt/puppetlabs/puppet/bin/r10k deploy environment -p
+
+for f in $(ls -1 /etc/puppetlabs/code/environments/)
+do
+	echo "Found environment $f"
+	if [ ! -d "/etc/puppetlabs/code/hieradata/$f" ]
+	then
+		echo "dir $f don't exists, creating it from develop"
+		ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$f
+	fi
+done
+
+systemctl enable puppetserver
+systemctl start puppetserver
+
+# Registering against the puppet server and sending certificate
+/opt/puppetlabs/puppet/bin/puppet agent -t
+# Given that this newly created cert isnt' known by puppet master, we need to sign it.
+# After the puppet master is puppetized, it comes with a autocert configuration
+/opt/puppetlabs/puppet/bin/puppet cert sign -a
+# Asking for the catalog again
+/opt/puppetlabs/puppet/bin/puppet agent -t
+
+systemctl restart puppetserver

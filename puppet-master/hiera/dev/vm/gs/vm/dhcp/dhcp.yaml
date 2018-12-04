@@ -1,0 +1,58 @@
+---
+# Common configuration for both, master and slave.
+# DHCP Server to be installed on IP: 139.229.162.250/24
+
+monitoring_enabled: true
+
+dhcp_pools:
+        "test.vm.dev..lsst.org":
+                network: "10.0.0.0"
+                mask: "255.255.255.0"
+                range: 
+                        - '10.0.0.100 10.0.0.200'
+                gateway: "10.0.0.1"
+                failover: "failover-partner"
+
+ignored_subnets:
+        eth0:
+                network: 10.0.2.0
+                mask: 255.255.255.0
+
+dnsdomain: 
+        - "vm.dev.lsst.org"
+dnssearchdomains:
+        - "vm.dev.lsst.org"
+        - "dev.lsst.org"
+        - "lsst.org"
+        - "lsst.local"
+        - "162.229.136.in-addr.arpa"
+
+nameservers:
+        - "139.229.136.35" #pi-hole temporary DNS content filtering
+        #- "140.252.32.45" #it doesn't make sense to have 
+
+ntpservers:
+        - "ntp.shoa.cl"
+
+dhcp_interfaces:
+        - "eth1"
+
+firewalld::ports:
+        'Opening port for DHCP peering 1':
+                ensure: present
+                zone: public
+                port: 547
+                protocol: 'tcp'
+        'Opening port for DHCP peering 2':
+                ensure: present
+                zone: public
+                port: 548
+                protocol: 'tcp'
+        'Opening port for DHCP Server': # Client port is already configured on default.pp
+                ensure: present
+                zone: public
+                port: 67
+                protocol: 'udp'
+
+monitored_services:
+        - dhcpd
