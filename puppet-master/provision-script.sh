@@ -51,15 +51,15 @@ do
 	fi
 done
 
+if [ ! -f /etc/puppetlabs/puppet/autosign.conf ]
+then
+	echo "*.vm.dev.lsst.org" > /etc/puppetlabs/puppet/autosign.conf
+fi
+
 systemctl enable puppetserver
 systemctl start puppetserver
 
 # Registering against the puppet server and sending certificate
-/opt/puppetlabs/puppet/bin/puppet agent -t
-# Given that this newly created cert isnt' known by puppet master, we need to sign it.
-# After the puppet master is puppetized, it comes with a autocert configuration
-/opt/puppetlabs/puppet/bin/puppet cert sign -a
-# Asking for the catalog again
 /opt/puppetlabs/puppet/bin/puppet agent -t
 
 systemctl restart puppetserver
