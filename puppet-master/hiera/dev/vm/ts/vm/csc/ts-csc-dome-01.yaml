@@ -1,0 +1,13 @@
+---
+
+ts_xml::ts_xml_subsystems:
+        - "ATHeaderService"
+        - "Electrometer"
+        - "ATDome"
+
+ts_xml::ts_xml_languages:
+        - "html"
+        - "cpp"
+        - "python"
+
+ts_xml::ts_sal_path: "%{lookup('ts_sal::ts_sal_path')}"
