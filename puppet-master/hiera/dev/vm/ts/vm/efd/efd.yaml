@@ -2,18 +2,21 @@
 # EFD
 #####################################################
 ts::efd::user: "efduser"
-
+ts::efd::mysql_admin_password: "root4u"
 ts::efd::user_pwd: "lssttest"
 
-ts::efd::ts_xml_subsystems:
-        - "atHeaderService"
-        - "dome"
-        - "domeADB"
-        - "domeLWS"
+ts_xml::ts_xml_subsystems:
+        - "ATHeaderService"
+        - "Electrometer"
+        - "ATDome"
 
-ts::efd::ts_xml_languages:
-        - "cpp"
+ts_efd::RunningEFDWriters:
+        - "ATDome"
+
+# Note that as for SAL 3.8.40, html needs to go first
+ts_xml::ts_xml_languages:
         - "html"
+        - "cpp"
         - "python"
 
 ts::efd::ts_efd_writers:
@@ -23,8 +26,73 @@ ts::efd::ts_efd_writers:
 
 #TODO Testing variables, to be removed
 
-ts_sal::sal_network_interface: "eth1"
+ts_sal::sal_network_interface: "eth0"
 
 monitoring_enabled: false
 
 firewalld_status: "stopped"
+
+# This is also the front end URL
+mysql_cluster_mgmt_url: '10.0.0.10'
+
+# Is still pending the mount points definition
+
+mysql_cluster_dir: '/var/lib/mysql-cluster'
+
+mysql_cluster_user: mysql
+
+mysql_cluster_mgmt_config_path: /etc/my.cnf.d/mgmt_config.ini
+
+mysql_cluster_rpm: "https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm"
+mysql_cluster_repo: mysql-cluster-7.6-community
+
+
+#######################################################################
+# Management Node definitions
+
+mgmt:
+        ndb_mgmd:
+                HostName: "%{lookup('mysql_cluster_mgmt_url')}"
+                PortNumber: 1186
+                
+        ndbd default:
+                NoOfReplicas: 1      # Number of replicas
+                DataMemory: 256M     # Memory allocate for data storage
+                IndexMemory: 128M    # Memory allocate for index storage
+                MaxNoOfAttributes: 10000
+                MaxNoOfTables: 4096
+                DataDir: "%{lookup('mysql_cluster_dir')}"
+        mysqld:
+                HostName: 10.0.0.12
+
+        ndbd:
+                HostName: 10.0.0.11
+                DataDir: /mnt/tier1
+
+mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode.cnf
+
+mysql_cluster_datanode_datapath: "%{lookup('mgmt.ndbd.DataDir')}"
+
+ndb_node:
+        mysqld:
+                ndbcluster: ''
+                ndb-connectstring: "%{lookup('mysql_cluster_mgmt_url')}:1186"    # IP address of Management Node
+ 
+        mysql_cluster:
+                ndb-connectstring: "%{lookup('mysql_cluster_mgmt_url')}:1186"     # IP address of Management Node
+
+mysql_cluster_server_config_path: /etc/my.cnf.d/mysql-server.cnf
+
+mysql_server:
+        mysqld:
+                ndbcluster: ''
+                ndb-connectstring: "%{lookup('mysql_cluster_mgmt_url')}"           # IP address for server management node, for more management servers add them with a comma separation
+                default_storage_engine: ndbcluster                              # Define default Storage Engine used by MySQL
+                datadir: "%{lookup('mysql_cluster_dir')}"                          # <path> should be for user: mysql group: mysql
+                socket: "%{lookup('mysql_cluster_dir')}/mysqld_cluster.sock"
+                pid-file: "%{lookup('mysql_cluster_dir')}/mysqld_cluster.pid"
+                port: 3308
+                #skip-grant-tables: ''                           #Used to start, then should be removed
+                
+        mysql_cluster:
+                ndb-connectstring: "%{lookup('mysql_cluster_mgmt_url')}"         # IP address for server management node
