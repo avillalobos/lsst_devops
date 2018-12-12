@@ -37,8 +37,8 @@ localdb:
                         - hibernate.connection.driver_class : com.mysql.jdbc.Driver
                         - hibernate.dialect : org.hibernate.dialect.MySQLDialect
                         - hibernate.connection.url : jdbc:mysql://localhost:3306/atsccsdb
-                        - hibernate.connection.username : ccs # Same as username above
-                        - hibernate.connection.password : HighlySecurePasswordForDemoTests # Sames as password above
+                        - hibernate.connection.username : "%{lookup('localdb_username')}" # DB Username
+                        - hibernate.connection.password : "%{lookup('localdb_password')}" # DB Username's password
         TrendingIngestModule:
                 filepath: /etc/ccs/TrendingIngestModule.properties
                 properties:
