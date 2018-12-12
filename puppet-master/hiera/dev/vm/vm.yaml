@@ -15,14 +15,20 @@ ts_sal::firewall_dds_zone_name: "lsst_zone"
 ts_sal::ts_sal_path: "/opt/ts_sal"
 ts_sal::ts_opensplice_path: "/opt/ts_opensplice"
 ts_sal::ts_sal_repo: "https://github.com/lsst-ts/ts_sal.git"
-ts_sal::ts_sal_branch: "v3.7.2"
+ts_sal::ts_sal_branch: "v3.8.40"
 ts_sal::ts_opensplice_repo: "https://github.com/lsst-ts/ts_opensplice.git"
 ts_sal::ts_opensplice_branch: "master"
+ts_sal::ts_python_build_version: "3.6m"
+ts_sal::ts_python_build_location: "/usr/"
+ts_sal::ts_pythonpath: "/usr/lib/python3.6/site-packages/"
+
 
 ts_xml::ts_xml_path: "/opt/ts_xml"
 ts_xml::ts_xml_repo: "https://github.com/lsst-ts/ts_xml.git"
-#ts_xml::ts_xml_branch: "feature/OCS_IntSpectImgCC"
-ts_xml::ts_xml_branch: "master"
+ts_xml::ts_xml_branch: "v3.8.38"
+ts_xml::ts_xml_build_dir: "build"
+ts_xml::ts_xml_user: "salmgr"
+ts_xml::ts_xml_group: "lsst"
 
 #Password generated as: openssl passwd -1 -salt LSST <PWD>
 #Bnice2me
