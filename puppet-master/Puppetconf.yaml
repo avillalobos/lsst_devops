@@ -9,4 +9,4 @@ puppet-master:
         ip: 10.0.0.250
         memory: 1024
         cpu: 1
-        puppet_environment: "IT_940_avillalobos"
+        puppet_environment: "IT_943_avillalobos"
