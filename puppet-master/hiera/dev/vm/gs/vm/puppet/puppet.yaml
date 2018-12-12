@@ -4,7 +4,6 @@
 #####################################################
 
 r10k_org: "lsst.org"
-r10k_hiera_org: "lsst_hiera"
 
 dns_alt_names: "gs-puppet-master.dev.lsst.org,puppet-master.dev.lsst.org"
 puppet_master_certname: "puppet-master.dev.lsst.org"
@@ -13,7 +12,7 @@ autosign_servers:
         - "dev.lsst.org"
 
 control_repo: "https://github.com/lsst/itconf_l1ts.git"
-hiera_repo: "/root/hiera/.git"
+puppet_ssh_id_rsa: "CreateOneIfRequired"
 
 puppet_enc_repo: https://github.com/lsst-dm/puppet-enc.git
 puppet_enc_branch: avillalobos_enc_improvement 
@@ -22,9 +21,3 @@ puppet_enc_path: '/etc/puppetlabs/code/enc/'
 puppet_enc_config_repo: https://github.com/lsst/cl_puppet_nodes_database.git
 puppet_enc_config_branch: master
 
-# This is to avoid issues while creating puppet master, however the key doesn't
-# contain any meaningful value
-hiera_repo_id_path: "/root/.ssh/id_rsa"
-hiera_repo_id_rsa_pub: "notrequired"
-hiera_repo_id_rsa: "notrequired"
-puppet_ssh_id_rsa: "CreateOneIfRequired"
