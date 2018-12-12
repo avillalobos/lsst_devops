@@ -17,6 +17,8 @@ $ vagrant up
 
 That is going to spawn up a new VM using Virtualbox as VM backend and vagrant to manage the VMs quickly. This process will finish with an already configured VM with all the LSST puppet scripts. The domain for this environment will be dev.lsst.org. That is importante because the country tag being used by either Puppet and Telegraf will be dev.
 
+Note: Make sure r10k_hiera_org value is not set in hiera before running the puppet master, this is to allow using hiera values from vagrant.
+
 **nodes**
 
 To start up a node, move to nodes directory, you need to know which node you want to deploy, this is the list of the current VMs pre-configured.
