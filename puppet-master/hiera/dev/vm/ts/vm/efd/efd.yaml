@@ -62,6 +62,8 @@ mgmt:
                 MaxNoOfAttributes: 10000
                 MaxNoOfTables: 4096
                 DataDir: "%{lookup('mysql_cluster_dir')}"
+                MaxNoOfOrderedIndexes: 5000
+                MaxNoOfUniqueHashIndexes: 5000
         mysqld:
                 HostName: 10.0.0.12
 
