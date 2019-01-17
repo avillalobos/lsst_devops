@@ -32,7 +32,7 @@ monitoring_enabled: false
 
 firewalld_status: "stopped"
 
-#mysql_cluster_rpm: "https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm"
+mysql_cluster_rpm: "https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm"
 mysql_cluster_repo: mysql-cluster-7.6-community
 # TODO: Is still pending the mount points definition
 
