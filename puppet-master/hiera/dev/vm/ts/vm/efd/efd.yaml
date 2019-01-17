@@ -1,5 +1,5 @@
 ---
-# EFD
+# EFD Writers configuration
 #####################################################
 ts::efd::user: "efduser"
 ts::efd::mysql_admin_password: "root4u"
@@ -57,6 +57,11 @@ efd_tiers_vars:
                 mysql_cluster_server_config_path: /etc/my.cnf.d/mysql-server-tier2.cnf
                 mysql_cluster_mysqld_port: '3309'
 
+# NodeID definitions:
+# mgmt: NodeID 1 - 3, NodeID 1 - Tier1, NodeID 2 - Tier2, NodeID3 - Tier3
+# srv: 4 - 15
+# data: 16 - 48
+
 efd_tiers:
         # Tier 1 Definitions
         tier1:
@@ -68,6 +73,7 @@ efd_tiers:
                         DataDir = %{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}
 
                         [ndb_mgmd]
+                        NodeId = 1
                         HostName = %{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_url')}
                         PortNumber = %{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_port')}
                         
@@ -83,19 +89,19 @@ efd_tiers:
                         MaxNoOfUniqueHashIndexes = 5000        
 
                         [mysqld]
-                        NodeId = 101
+                        NodeId = 4
                         HostName = 10.0.0.13
                         
                         [mysqld]
-                        NodeId = 102
+                        NodeId = 5
                         HostName = 10.0.0.14
                         
                         [ndbd]
-                        NodeId = 111
+                        NodeId = 16
                         HostName = 10.0.0.11
                         
                         [ndbd]
-                        NodeId = 112
+                        NodeId = 17
                         HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
@@ -133,7 +139,7 @@ efd_tiers:
                         DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
                         
                         [ndb_mgmd]
-                        NodeId = 1
+                        NodeId = 2
                         HostName = %{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_url')}
                         PortNumber = %{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_port')}
                         DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
@@ -149,19 +155,19 @@ efd_tiers:
                         MaxNoOfUniqueHashIndexes = 5000    
                         
                         [mysqld]
-                        NodeId = 201
+                        NodeId = 4
                         HostName = 10.0.0.13
                         
                         [mysqld]
-                        NodeId = 202
+                        NodeId = 5
                         HostName = 10.0.0.14
                         
                         [ndbd]
-                        NodeId = 211
+                        NodeId = 16
                         HostName = 10.0.0.11
                         
                         [ndbd]
-                        NodeId = 212
+                        NodeId = 17
                         HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
