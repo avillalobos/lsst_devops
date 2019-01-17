@@ -81,14 +81,22 @@ efd_tiers:
                         DataDir  = %{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}
                         MaxNoOfOrderedIndexes = 5000
                         MaxNoOfUniqueHashIndexes = 5000        
+                        
                         [mysqld]
-                        HostName = 10.0.0.3
+                        NodeId = 10
+                        HostName = 10.0.0.13
+                        
                         [mysqld]
-                        HostName = 10.0.0.4
+                        NodeId = 11
+                        HostName = 10.0.0.14
+                        
                         [ndbd]
-                        HostName = 10.0.0.3
+                        NodeId = 21
+                        HostName = 10.0.0.11
+                        
                         [ndbd]
-                        HostName = 10.0.0.4
+                        NodeId = 22
+                        HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
 
@@ -143,19 +151,19 @@ efd_tiers:
                         
                         [mysqld]
                         NodeId = 10
-                        HostName = 10.0.0.3
+                        HostName = 10.0.0.13
                         
                         [mysqld]
                         NodeId = 11
-                        HostName = 10.0.0.4
+                        HostName = 10.0.0.14
                         
                         [ndbd]
                         NodeId = 21
-                        HostName = 10.0.0.3
+                        HostName = 10.0.0.11
                         
                         [ndbd]
                         NodeId = 22
-                        HostName = 10.0.0.4
+                        HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
 
