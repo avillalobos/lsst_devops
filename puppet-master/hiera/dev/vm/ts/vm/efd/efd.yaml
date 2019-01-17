@@ -81,21 +81,21 @@ efd_tiers:
                         DataDir  = %{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}
                         MaxNoOfOrderedIndexes = 5000
                         MaxNoOfUniqueHashIndexes = 5000        
-                        
+
                         [mysqld]
-                        NodeId = 10
+                        NodeId = 101
                         HostName = 10.0.0.13
                         
                         [mysqld]
-                        NodeId = 11
+                        NodeId = 102
                         HostName = 10.0.0.14
                         
                         [ndbd]
-                        NodeId = 21
+                        NodeId = 111
                         HostName = 10.0.0.11
                         
                         [ndbd]
-                        NodeId = 22
+                        NodeId = 112
                         HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
@@ -139,30 +139,29 @@ efd_tiers:
                         DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
                                 
                         [ndbd default]
-                        NoOfReplicas = 10      # Number of replicas
+                        NoOfReplicas = 2      # Number of replicas
                         DataMemory = 256M     # Memory allocate for data storage
                         IndexMemory = 128M    # Memory allocate for index storage
                         MaxNoOfAttributes = 10000
                         MaxNoOfTables = 4096
                         DataDir  = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
                         MaxNoOfOrderedIndexes = 5000
-                        MaxNoOfUniqueHashIndexes = 5000
-                        NoOfFragmentLogFiles = 1000        
+                        MaxNoOfUniqueHashIndexes = 5000    
                         
                         [mysqld]
-                        NodeId = 10
+                        NodeId = 201
                         HostName = 10.0.0.13
                         
                         [mysqld]
-                        NodeId = 11
+                        NodeId = 202
                         HostName = 10.0.0.14
                         
                         [ndbd]
-                        NodeId = 21
+                        NodeId = 211
                         HostName = 10.0.0.11
                         
                         [ndbd]
-                        NodeId = 22
+                        NodeId = 212
                         HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
