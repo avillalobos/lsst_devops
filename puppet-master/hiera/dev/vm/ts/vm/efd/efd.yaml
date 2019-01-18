@@ -77,7 +77,6 @@ efd_tiers:
                         HostName = %{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_url')}
                         PortNumber = %{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_port')}
                         
-                                
                         [ndbd default]
                         NoOfReplicas = 2      # Number of replicas
                         DataMemory = 256M     # Memory allocate for data storage
