@@ -40,6 +40,7 @@ mysql_cluster_repo: mysql-cluster-7.6-community
 efd_tiers_vars:
         tier1:
                 mysql_cluster_dir: '/var/lib/mysql-cluster-tier1'
+                mysql_cluster_datadir: '/mnt/tier1'
                 # This is also the front end URL
                 mysql_cluster_mgmt_url: '10.0.0.10'
                 mysql_cluster_mgmt_port: '1186'
@@ -49,6 +50,7 @@ efd_tiers_vars:
                 mysql_cluster_mysqld_port: '3308'
         tier2:
                 mysql_cluster_dir: '/var/lib/mysql-cluster-tier2'
+                mysql_cluster_datadir: '/mnt/tier2'
                 # This is also the front end URL
                 mysql_cluster_mgmt_url: '10.0.0.10'
                 mysql_cluster_mgmt_port: '1187'
@@ -70,7 +72,7 @@ efd_tiers:
 
                 mgmt: |
                         [ndb_mgmd default]
-                        DataDir = %{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}
+                        DataDir = %{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}/mgmt/
 
                         [ndb_mgmd]
                         NodeId = 1
@@ -83,7 +85,7 @@ efd_tiers:
                         IndexMemory = 128M    # Memory allocate for index storage
                         MaxNoOfAttributes = 10000
                         MaxNoOfTables = 4096
-                        DataDir  = %{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}
+                        DataDir  = %{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}/data
                         MaxNoOfOrderedIndexes = 5000
                         MaxNoOfUniqueHashIndexes = 5000        
 
@@ -120,9 +122,9 @@ efd_tiers:
                                 ndbcluster: ''
                                 ndb-connectstring: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_url')}:%{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_port')}"           # IP address for server management node, for more management servers add them with a comma separation
                                 default_storage_engine: ndbcluster                              # Define default Storage Engine used by MySQL
-                                datadir: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}"                          # <path> should be for user: mysql group: mysql
-                                socket: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}/mysqld_cluster.sock"
-                                pid-file: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}/mysqld_cluster.pid"
+                                datadir: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}/srv/"                          # <path> should be for user: mysql group: mysql
+                                socket: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}/srv/mysqld_cluster.sock"
+                                pid-file: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}/srv/mysqld_cluster.pid"
                                 port: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_mysqld_port')}"
                                 #skip-grant-tables: ''                           #Used to start, then should be removed
                                 
@@ -135,13 +137,12 @@ efd_tiers:
 
                 mgmt: |
                         [ndb_mgmd default]
-                        DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
+                        DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}/mgmt
                         
                         [ndb_mgmd]
                         NodeId = 2
                         HostName = %{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_url')}
                         PortNumber = %{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_port')}
-                        DataDir = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
                                 
                         [ndbd default]
                         NoOfReplicas = 2      # Number of replicas
@@ -149,7 +150,7 @@ efd_tiers:
                         IndexMemory = 128M    # Memory allocate for index storage
                         MaxNoOfAttributes = 10000
                         MaxNoOfTables = 4096
-                        DataDir  = %{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}
+                        DataDir  = %{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}/data/
                         MaxNoOfOrderedIndexes = 5000
                         MaxNoOfUniqueHashIndexes = 5000    
                         
@@ -171,7 +172,7 @@ efd_tiers:
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
 
-                mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}"
+                mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}"
 
                 ndb_node:
                         mysqld:
@@ -186,9 +187,9 @@ efd_tiers:
                                 ndbcluster: ''
                                 ndb-connectstring: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_url')}:%{lookup('efd_tiers_vars.tier2.mysql_cluster_mgmt_port')}"           # IP address for server management node, for more management servers add them with a comma separation
                                 default_storage_engine: ndbcluster                              # Define default Storage Engine used by MySQL
-                                datadir: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}"                          # <path> should be for user: mysql group: mysql
-                                socket: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}/mysqld_cluster.sock"
-                                pid-file: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}/mysqld_cluster.pid"
+                                datadir: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}/srv/"                          # <path> should be for user: mysql group: mysql
+                                socket: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}/srv/mysqld_cluster.sock"
+                                pid-file: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_dir')}/srv/mysqld_cluster.pid"
                                 port: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_mysqld_port')}"
                                 #skip-grant-tables: ''                           #Used to start, then should be removed
                                 
