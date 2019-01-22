@@ -1,0 +1,114 @@
+---
+# Defaults will be over-written by per-guest values
+defaults:
+        box: centos/7
+        memory: 512
+        env:
+                PUPFROMDEFAULT: fromdefault
+
+nodes:
+        # ======================================================================
+        # Monitoring Cluster
+        # ======================================================================
+        influx:
+                hostname: "gs-influxdb-node-01.vm.dev.lsst.org"
+                ip: 10.0.0.251
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        grafana:
+                hostname: "gs-grafana-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.252"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        graylog:
+                hostname: "gs-graylog-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.253"
+                memory: 2048
+                cpu: 2
+                puppet_environment: "develop"
+
+        # ======================================================================
+        # EFD Cluster
+        # ======================================================================
+        ts-efd-mgmt:
+                hostname: "ts-efd-mgmt-01.vm.dev.lsst.org"
+                ip: "10.0.0.10"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-data-01:
+                hostname: "ts-efd-data-01.vm.dev.lsst.org"
+                ip: "10.0.0.11"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-data-02:
+                hostname: "ts-efd-data-02.vm.dev.lsst.org"
+                ip: "10.0.0.12"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-srv-01:
+                hostname: "ts-efd-srv-01.vm.dev.lsst.org"
+                ip: "10.0.0.13"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-srv-02:
+                hostname: "ts-efd-srv-02.vm.dev.lsst.org"
+                ip: "10.0.0.14"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        # ======================================================================
+
+        ats-shutter-hcu:
+                hostname: "ats-shutter-hcu.vm.dev.lsst.org"
+                ip: "10.0.0.20"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        dm-hs:
+                hostname: "dm-hs-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.30"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        ats-ccs-localdb:
+                hostname: "ats-ccs-localdb-01.vm.dev.lsst.org"
+                ip: "10.0.0.40"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        visit-simulator:
+                hostname: "ts-visitsim-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.50"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
+        dhcp-master:
+                hostname: "gs-dhcp-master.vm.dev.lsst.org"
+                ip: "10.0.0.249"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_939_avillalobos"
+        
+        ts-csc-generic:
+                hostname: "ts-csc-dome-01.vm.dev.lsst.org"
+                ip: "10.0.0.100"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_943_avillalobos"
