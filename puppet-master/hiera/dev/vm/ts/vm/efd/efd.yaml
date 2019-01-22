@@ -108,8 +108,8 @@ efd_tiers:
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
 
                 mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}"
-
-                mysql_cluster_datanode_nowait_nodeid: "16,17"
+                # This feature is only necessary when you want to start the server with one node
+                # mysql_cluster_datanode_nowait_nodeid: "16,17"
 
                 ndb_node:
                         mysqld:
@@ -175,8 +175,8 @@ efd_tiers:
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
 
                 mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}"
-
-                mysql_cluster_datanode_nowait_nodeid: "16,17"
+                # This feature is only necessary when you want to start the server with one node
+                # mysql_cluster_datanode_nowait_nodeid: "16,17"
 
                 ndb_node:
                         mysqld:
