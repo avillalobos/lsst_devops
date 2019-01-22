@@ -1,0 +1,36 @@
+---
+# Defaults will be over-written by per-guest values
+defaults:
+        box: centos/7
+        memory: 512
+        env:
+                PUPFROMDEFAULT: fromdefault
+
+nodes:
+        ts-efd-mgmt:
+                hostname: "ts-efd-mgmt-01.vm.dev.lsst.org"
+                ip: "10.0.0.10"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-data-01:
+                hostname: "ts-efd-data-01.vm.dev.lsst.org"
+                ip: "10.0.0.11"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-data-02:
+                hostname: "ts-efd-data-02.vm.dev.lsst.org"
+                ip: "10.0.0.12"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
+
+        ts-efd-srv-01:
+                hostname: "ts-efd-srv-01.vm.dev.lsst.org"
+                ip: "10.0.0.13"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "IT_971_avillalobos"
