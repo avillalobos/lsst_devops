@@ -107,7 +107,7 @@ efd_tiers:
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
 
-                mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_dir')}"
+                mysql_cluster_datanode_datapath: "%{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}"
 
                 ndb_node:
                         mysqld:
