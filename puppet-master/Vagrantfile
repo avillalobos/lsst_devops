@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
 	config.vm.define "puppet-master" do |puppet|
 		puppet.vm.box = "centos/7"
 		puppet.vm.hostname = Puppetconf["hostname"]
+		puppet.vm.synced_folder ".", "/vagrant", type: "rsync"
 		puppet.vm.provision :shell, :path => 'provision-script.sh', :args => [Puppetconf["puppet_environment"], Puppetconf["ip"]]
 		puppet.vm.network "private_network", ip: Puppetconf["ip"]
 		puppet.ssh.forward_x11 = true

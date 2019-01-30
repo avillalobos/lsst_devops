@@ -3,12 +3,26 @@
 
 require 'yaml'
 require 'pp'
+require 'getoptlong'
 #load 'vagrant_funcs.rb'
+
+opts = GetoptLong.new(
+  [ '--design', GetoptLong::OPTIONAL_ARGUMENT ]
+)
+
+design_file='designs/Vagrant_all.yaml'
+
+opts.each do |opt, arg|
+  case opt
+    when '--design'
+	design_file=arg
+  end
+end
 
 # Credits to @andylytical -> https://github.com/ncsa/puppet_deployment
 # Get values from yaml config file
 # (See also: https://stackoverflow.com/a/26394449 )
-conf = YAML.load_file( "Vagrantconf.yaml" )
+conf = YAML.load_file( design_file )
 defaults = conf['defaults']
 common = conf['common']
 nodes = conf['nodes']
