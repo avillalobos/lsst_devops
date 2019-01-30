@@ -44,11 +44,55 @@ firewalld_status: "running"
 #=============================================================================
 # Remote Logging and Graylog Configuration
 #=============================================================================
-rsyslog_host: "10.0.0.253"
-rsyslog_port: "5514"
-rsyslog_proto: "udp"
-rsyslog_patterns: "*.info;mail.none;authpriv.none;cron.none"
 
+rsyslog::client::global_config:
+        workDirectory:
+                value: '/var/log/messages'
+        maxMessageSize:
+                value: '64k'
+        ActionFileDefaultTemplate:
+                value: RSYSLOG_TraditionalFileFormat
+
+rsyslog::client::actions:
+        all_logs_remote:
+                type: omfwd
+                facility: "*.*;auth,authpriv.none"
+                config:
+                        Target: "10.0.0.253"
+                        Port: 5514
+                        Protocol: "udp"
+                        ResumeRetryCount: -1
+                        QueueType: "LinkedList"
+                        QueueSaveOnShutdown: on
+
+        all_logs_local:
+                type: omfile
+                facility: "*.*;auth,authpriv.none"
+                config:
+                        file: "/var/log/messages"
+        mail_logs:
+                type: omfile
+                facility: "mail.*"
+                config:
+                        file: "-/var/log/maillog"
+        cron_logs:
+                type: omfile
+                facility: "cron.*"
+                config:
+                        file: "/var/log/cron"
+        boot_logs:
+                type: omfile
+                facility: "local7.*"
+                config:
+                        file: "-/var/log/boot.log"
+
+rsyslog::client::modules:
+        imuxsock: {}
+        imudp:
+                config:
+                        threads: "2"
+                        TimeRequery: "8"
+                        batchSize: "128"
 #=============================================================================
 # Authentication
 
