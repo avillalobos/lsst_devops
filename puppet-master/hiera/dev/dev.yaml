@@ -47,23 +47,26 @@ firewalld_status: "running"
 
 rsyslog::client::global_config:
         workDirectory:
-                value: '/var/log/messages'
+                value: '/var/log'
         maxMessageSize:
                 value: '64k'
-        ActionFileDefaultTemplate:
-                value: RSYSLOG_TraditionalFileFormat
 
 rsyslog::client::actions:
-        all_logs_remote:
+        primary_log_server:
                 type: omfwd
                 facility: "*.*;auth,authpriv.none"
                 config:
                         Target: "10.0.0.253"
                         Port: 5514
                         Protocol: "udp"
-                        ResumeRetryCount: -1
-                        QueueType: "LinkedList"
-                        QueueSaveOnShutdown: on
+
+        backup_log_server:
+                type: omfwd
+                facility: "*.*;auth,authpriv.none"
+                config:
+                        Target: "10.0.0.254"
+                        Port: 5514
+                        Protocol: "udp"
 
         all_logs_local:
                 type: omfile
@@ -88,11 +91,9 @@ rsyslog::client::actions:
 
 rsyslog::client::modules:
         imuxsock: {}
-        imudp:
+        imfile:
                 config:
-                        threads: "2"
-                        TimeRequery: "8"
-                        batchSize: "128"
+                      PollingInterval: 10  
 #=============================================================================
 # Authentication
 
