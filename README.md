@@ -5,9 +5,17 @@ Automatic Deployment of LSST Systems
 
    * VirtualBox
 
+   * VirtualBox Guests Additions
+
    * Vagrant.
 
 To use this scripts you need first to start up the puppet master VM. The network configured within this scripts is 10.0.0.0/24. All nodes have already an IP assigned and based on those IPs the services are being configured.
+
+**vagrant-vbguest**
+
+In order to mount the hiera folder into the VM, you need to first install the VirtualBox Guest Additions. Go into the puppet-master directory and run
+
+      vagrant plugin install vagrant-vbguest
 
 **puppet-master**
 

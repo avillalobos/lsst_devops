@@ -64,3 +64,13 @@ firewalld::ports:
                 zone: internal
                 port: 6514
                 protocol: 'udp'
+
+##########################################################
+
+#Graylog log file configuration
+rsyslog::client::inputs:
+        test_input:
+                type: imfile
+                config:
+                        file: “/var/log/graylog-server/server.log“
+                        Tag: “graylog”

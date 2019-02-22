@@ -21,12 +21,16 @@ fi
 
 if [ ! -d /etc/puppetlabs/code/hieradata/ ]
 then
-	mkdir -p /etc/puppetlabs/code/hieradata/
+	mkdir -p /etc/puppetlabs/code/hieradata/production
 fi
 
-if [ ! -d /etc/puppetlabs/code/hieradata/$ENVIRONMENT ]
+if [ ! -d /etc/puppetlabs/code/hieradata/production ]
 then
-	ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$ENVIRONMENT
+	if [ ! -z "$(grep etc_puppetlabs_code_hieradata_production fstab)" ]
+   then
+	    echo "etc_puppetlabs_code_hieradata_production /etc/puppetlabs/code/hieradata/production vboxsf defaults,rw 1 2" >> /etc/fstab
+			mount -a
+  fi
 fi
 
 echo -e "---
@@ -47,7 +51,7 @@ do
 	if [ ! -d "/etc/puppetlabs/code/hieradata/$f" ]
 	then
 		echo "dir $f don't exists, creating it from develop"
-		ln -s /vagrant/hiera/ /etc/puppetlabs/code/hieradata/$f
+		ln -s /etc/puppetlabs/code/hieradata/production /etc/puppetlabs/code/hieradata/$f
 	fi
 done
 
@@ -63,3 +67,5 @@ systemctl start puppetserver
 /opt/puppetlabs/puppet/bin/puppet agent -t
 
 systemctl restart puppetserver
+
+
