@@ -26,7 +26,7 @@ fi
 
 if [ -d /etc/puppetlabs/code/hieradata/production ]
 then
-	if [ ! -z "$(grep etc_puppetlabs_code_hieradata_production fstab)" ]
+	if [ ! -z "$(grep etc_puppetlabs_code_hieradata_production /etc/fstab)" ]
    then
 	    echo "etc_puppetlabs_code_hieradata_production /etc/puppetlabs/code/hieradata/production vboxsf defaults,ro 0 0" >> /etc/fstab
 			mount -a
