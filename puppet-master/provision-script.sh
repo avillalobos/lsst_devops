@@ -57,8 +57,11 @@ done
 
 if [ -d /etc/puppetlabs/code/environments/$ENVIRONMENT ]
 then
+  if [ ! -z "$(grep etc_puppetlabs_code_environments_puppet-code /etc/fstab)" ]
+   then
     echo "/etc/puppetlabs/code/environments/puppet-code /etc/puppetlabs/code/environments/$ENVIRONMENT none defaults,ro,bind 0 0" >> /etc/fstab
 		mount -a
+	fi	
 fi
 
 if [ ! -f /etc/puppetlabs/puppet/autosign.conf ]
