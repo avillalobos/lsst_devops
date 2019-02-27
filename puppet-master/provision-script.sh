@@ -61,8 +61,9 @@ fi
 if [ -z "$(grep opt_puppet-code /etc/fstab)" ]
 then
   echo "opt_puppet-code /opt/puppet-code vboxfs defaults,ro 0 0" >> /etc/fstab
-#	echo "/opt/puppet-code /etc/puppetlabs/code/environments/$ENVIRONMENT none defaults,ro,bind 0 0" >> /etc/fstab
 	mount -a
+	echo "/opt/puppet-code /etc/puppetlabs/code/environments/$ENVIRONMENT none defaults,ro,bind 0 0" >> /etc/fstab
+	
 fi
 
 if [ ! -f /etc/puppetlabs/puppet/autosign.conf ]
