@@ -24,13 +24,11 @@ then
 	mkdir -p /etc/puppetlabs/code/hieradata/production
 fi
 
-if [ -d /etc/puppetlabs/code/hieradata/production ]
+
+if [ -z "$(grep etc_puppetlabs_code_hieradata_$ENVIRONMENT /etc/fstab)" ]
 then
-	if [ ! -z "$(grep etc_puppetlabs_code_hieradata_production /etc/fstab)" ]
-   then
-	    echo "etc_puppetlabs_code_hieradata_production /etc/puppetlabs/code/hieradata/production vboxsf defaults,ro 0 0" >> /etc/fstab
-			mount -a
-  fi
+  echo "etc_puppetlabs_code_hieradata_$ENVIRONMENT /etc/puppetlabs/code/hieradata/$ENVIRONMENT vboxsf defaults,ro 0 0" >> /etc/fstab
+	mount -a
 fi
 
 echo -e "---
@@ -55,13 +53,16 @@ do
 	fi
 done
 
-if [ -d /etc/puppetlabs/code/environments/$ENVIRONMENT ]
+if [ ! -d /opt/puppet-code ]
 then
-  if [ ! -z "$(grep etc_puppetlabs_code_environments_puppet-code /etc/fstab)" ]
-   then
-    echo "/etc/puppetlabs/code/environments/puppet-code /etc/puppetlabs/code/environments/$ENVIRONMENT none defaults,ro,bind 0 0" >> /etc/fstab
-		mount -a
-	fi	
+	mkdir /opt/puppet-code
+fi
+
+if [ -z "$(grep opt_puppet-code /etc/fstab)" ]
+then
+  echo "opt_puppet-code /opt/puppet-code vboxfs defaults,ro 0 0" >> /etc/fstab
+	echo "/opt/puppet-code /etc/puppetlabs/code/environments/$ENVIRONMENT none defaults,ro,bind 0 0" >> /etc/fstab
+	mount -a
 fi
 
 if [ ! -f /etc/puppetlabs/puppet/autosign.conf ]
