@@ -17,6 +17,44 @@ In order to mount the hiera folder into the VM, you need to first install the Vi
 
       vagrant plugin install vagrant-vbguest
 
+**Directory Structure**
+
+This is the proposed straucture to work with Puppet code and the lsst_devops repo. 
+
+      workspace/
+      ├── itconf_l1ts
+      │   ├── Puppetfile
+      │   ├── README.md
+      │   ├── environment.conf
+      │   ├── hiera.yaml
+      │   ├── manifests
+      │   │   └── site.pp
+      │   └── site
+      │       ├── facts
+      │       ├── profile
+      │       └── role
+      └── lsst_devops
+          ├── README.md
+          ├── nodes
+          │   ├── Makefile
+          │   ├── Vagrantfile
+          │   └── designs
+          └── puppet-master
+              ├── Puppetconf.yaml
+              ├── Vagrantfile
+              ├── hiera
+              └── provision-script.sh
+
+
+The Puppetconf.yaml file into the puppet-master directory, gives you all the configuration required for the puppet master to work, below a brief overview of each one:
+
+ * `hostname`: It must be the FQDN, and for the puppet master it must be: "gs-puppet-master.vm.dev.lsst.org"
+ * `ip`: You can decide which IP give to your puppet master, however, if you change the Default IP, you need to also update your local hiera configuration, since all the nodes are pointing to the default IP. This should be done with services discovery, is someone figure how to do this, help is welcomed.
+ * `memory`: Amount of RAM assigned to the VM, by default 1024
+ * `cpu`: Amount of CPUs to be assigned to the VM, by default is 1
+ * `puppet_environment`: Only for puppet code developers. This is the environment that is going to be used to mount the gitcode you have in the host machine into `/etc/puppetlabs/code/environment/<puppet-environment>`. So, if you are working on a particular branch in the puppet code repo, that branch name should be the one used on this variable. 
+ * `gitcode_path`: Only for puppet code developers, this is the path, on the host machine, in where the puppet code is living, using the proposed file structure, this dir should be `"../../itconf_l1ts/"`
+
 **puppet-master**
 
 To start up a Puppet Master, go into puppet-master directory and execute vagrant up. The ip for the puppet master is 10.0.0.250. Hostname configured as puppet-master.dev.lsst.org.
@@ -32,7 +70,7 @@ If there is given branch from the puppet code that you would like to test, then 
       sudo su -
       admin.py -l
 
-The commands above will list all the nodes definitions configured in puppet. Depending on the host you want to work on, you may want to use a different environment. You can do that in 2 different ways, by modifying the CSV files in where all those definitions are, or by modifying the current DB (sqlite file). I would rather prefer the second options since is a temporay change.
+The commands above will list all the nodes definitions configured in puppet. Depending on the host you want to work on, you may want to use a different environment. You can do that in 2 different ways, by modifying the CSV files in where all those definitions are, or by modifying the current DB (sqlite file). I would prefer the second options since is a temporay change.
 
 Example: 
 
@@ -42,7 +80,7 @@ Note that the environments database is configured in hiera, this repo as of toda
 
 Note: Make sure r10k_hiera_org value is not set in hiera before running the puppet master, this is to allow using hiera values from vagrant.
 
-If you destroy a node and wants to re-provision it. You should also clean the SSL keys stored in the puppet master. That's it because when a node gets registered with the puppet master, it self sign the provided certificate from the node, if you destroy the VM and create a new one with the exact same hostname, the node will create a different SSL certificate that will have conflicts in the puppet master, therefore, is safer to, every time you destroy a VM, clean its associated SSL key. In order to do so:
+If you destroy a node and wants to re-provision it. You should also clean the SSL keys stored in the puppet master. That's because when a node is registered with the puppet master, it self sign the provided certificate from the node, if you destroy the VM and create a new one with the exact same hostname, the node will create a different SSL certificate that will have conflicts in the puppet master, therefore, is safer to, every time you destroy a VM, clean its associated SSL key. In order to do so:
 
       cd puppet-master
       vagrant ssh 
