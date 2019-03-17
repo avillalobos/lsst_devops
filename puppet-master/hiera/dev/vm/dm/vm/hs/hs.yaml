@@ -3,17 +3,14 @@
 #####################################################
 
 dm::dm_header_service::ts_xml_subsystems:
-        - "ocs"
-        - "efd"
-        - "atHeaderService"
-        - "atcamera"
-        - "atScheduler"
+        - "EFD"
+        - "ATHeaderService"
+        - "ATCamera"
+        - "Scheduler"
 
 dm::dm_header_service::ts_xml_languages:
         - "cpp"
         - "python"
-
-#TODO Testing variables, to be removed
 
 ts_sal::sal_network_interface: "eth1"
 
@@ -21,7 +18,12 @@ monitoring_enabled: false
 
 firewalld_status: "stopped"
 
-# Custom SAL Python Version
-#ts_sal::ts_python_build_version: "2.7"
-#ts_sal::ts_python_build_location: "/usr"
-#ts_sal::ts_pythonpath: "" 
+dm::dm_header_service::header_service_www_output: 
+        - /opt/www
+        - /opt/www/DMHS_filerepo
+dm::dm_header_service::header_service_path: /opt/HeaderService
+dm::dm_header_service::header_service_current_tag: tickets/DM-17937
+dm::dm_header_service::header_service_repo: https://github.com/lsst-dm/HeaderService.git
+dm::dm_header_service::salpytools_path: /opt/salpytools
+dm::dm_header_service::salpytools_current_tag: tickets/DM-16255
+dm::dm_header_service::salpytools_repo: https://github.com/lsst-dm/salpytools.git
