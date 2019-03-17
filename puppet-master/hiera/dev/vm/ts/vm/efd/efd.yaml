@@ -6,12 +6,16 @@ ts::efd::mysql_admin_password: "root4u"
 ts::efd::user_pwd: "lssttest"
 
 ts_xml::ts_xml_subsystems:
+        - "EFD"
         - "ATHeaderService"
-        - "Electrometer"
-        - "ATDome"
+        - "ATCamera"
+        - "Scheduler"
 
 ts_efd::RunningEFDWriters:
-        - "ATDome"
+        - "EFD"
+        - "ATHeaderService"
+        - "ATCamera"
+        - "Scheduler"
 
 # Note that as for SAL 3.8.40, html needs to go first
 ts_xml::ts_xml_languages:
@@ -80,9 +84,8 @@ efd_tiers:
                         PortNumber = %{lookup('efd_tiers_vars.tier1.mysql_cluster_mgmt_port')}
                         
                         [ndbd default]
-                        NoOfReplicas = 2      # Number of replicas
-                        DataMemory = 256M     # Memory allocate for data storage
-                        IndexMemory = 128M    # Memory allocate for index storage
+                        NoOfReplicas = 1      # Number of replicas
+                        DataMemory = 512M     # Memory allocate for data storage
                         MaxNoOfAttributes = 10000
                         MaxNoOfTables = 4096
                         DataDir  = %{lookup('efd_tiers_vars.tier1.mysql_cluster_datadir')}/data
@@ -100,10 +103,6 @@ efd_tiers:
                         [ndbd]
                         NodeId = 16
                         HostName = 10.0.0.11
-                        
-                        [ndbd]
-                        NodeId = 17
-                        HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier1.cnf
 
@@ -148,8 +147,7 @@ efd_tiers:
                                 
                         [ndbd default]
                         NoOfReplicas = 2      # Number of replicas
-                        DataMemory = 256M     # Memory allocate for data storage
-                        IndexMemory = 128M    # Memory allocate for index storage
+                        DataMemory = 128M     # Memory allocate for data storage
                         MaxNoOfAttributes = 10000
                         MaxNoOfTables = 4096
                         DataDir  = %{lookup('efd_tiers_vars.tier2.mysql_cluster_datadir')}/data/
@@ -167,10 +165,6 @@ efd_tiers:
                         [ndbd]
                         NodeId = 16
                         HostName = 10.0.0.11
-                        
-                        [ndbd]
-                        NodeId = 17
-                        HostName = 10.0.0.12
 
                 mysql_cluster_datanode_config_path: /etc/my.cnf.d/datanode_tier2.cnf
 
