@@ -13,7 +13,11 @@ Vagrant.configure("2") do |config|
 			puppet.vm.synced_folder Puppetconf["gitcode_path"], "/opt/puppet-code"
 		end
 		puppet.vm.synced_folder "hiera", "/etc/puppetlabs/code/hieradata/production"
-		puppet.vm.provision :shell, :path => 'provision-script.sh', :args => [Puppetconf["puppet_environment"], Puppetconf["ip"]]
+    if Puppetconf.key?("puppet_environment")
+			puppet.vm.provision :shell, :path => 'provision-script.sh', :args => [Puppetconf["puppet_environment"], Puppetconf["ip"]]
+		else
+			puppet.vm.provision :shell, :path => 'provision-script.sh', :args => ["production", Puppetconf["ip"]]
+		end
 		puppet.vm.network "private_network", ip: Puppetconf["ip"]
 		puppet.ssh.forward_x11 = true
 		puppet.vm.provider "virtualbox" do |v|
