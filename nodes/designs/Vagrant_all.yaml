@@ -31,6 +31,13 @@ nodes:
                 cpu: 2
                 puppet_environment: "develop"
 
+        telegraf:
+                hostname: "gs-telegraf-node-01.vm.dev.lsst.org"
+                ip: "10.0.0.254"
+                memory: 1024
+                cpu: 1
+                puppet_environment: "develop"
+
         # ======================================================================
         # EFD Cluster
         # ======================================================================
