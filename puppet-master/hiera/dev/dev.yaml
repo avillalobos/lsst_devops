@@ -12,6 +12,7 @@ motd: |
                 * Influx Server:  10.0.0.251 <vagrant up influx>
                 * Grafana Server: 10.0.0.252 <vagrant up grafana>
                 * Graylog Server: 10.0.0.253 <vagrant up graylog>
+                * Telegraf Server: 10.0.0.254 <vagrant up telegraf>
 
 ntp:
         ntp_server_1 : "0.south-america.pool.ntp.org"
