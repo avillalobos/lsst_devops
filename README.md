@@ -1,13 +1,15 @@
 # lsst_devops
 Automatic Deployment of LSST Systems
 
+To properly run this environment, please install the following requirements in the stablished numerical order:
+
 **Requirements:**
 
-   * VirtualBox
+   1. VirtualBox
 
-   * VirtualBox Guests Additions
+   2. Vagrant.
 
-   * Vagrant.
+   3. VirtualBox Guests Additions - This needs to be done through vagrant cli, as a vagrant plugin (please refer to section **vagrant-vbguest**)
 
 To use this scripts you need first to start up the puppet master VM. The network configured within this scripts is 10.0.0.0/24. All nodes have already an IP assigned and based on those IPs the services are being configured.
 
