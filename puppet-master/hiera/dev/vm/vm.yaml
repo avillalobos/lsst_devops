@@ -21,6 +21,7 @@ ts_sal::ts_opensplice_branch: "v3.8.41"
 ts_sal::ts_python_build_version: "3.6m"
 ts_sal::ts_python_build_location: "/usr/"
 ts_sal::ts_pythonpath: "/usr/lib/python3.6/site-packages/"
+ts_sal::lsst_dds_domain: "auxtel"
 
 
 ts_xml::ts_xml_path: "/opt/ts_xml"
