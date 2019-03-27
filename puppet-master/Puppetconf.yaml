@@ -10,14 +10,6 @@ puppet-master:
         memory: 1024
         cpu: 1
         # gitcode_path will be mounted on this environment in: /etc/puppetlabs/code/environments/$ENVIRONMENT
-<<<<<<< HEAD
-        #puppet_environment: "production"
-        # If you want to work on your own puppet code, we recommend adding this variable with the path in where the puppet code is
-        #gitcode_path: "../../itconf_l1ts/"  
- 
-=======
         puppet_environment: "IT_992_mareuter"
         # If you want to work on your own puppet code, we recommend adding this variable with the path in where the puppet code is
         gitcode_path: "../../itconf_l1ts/"  
- 
->>>>>>> Adding back the branch to the puppet environment.
