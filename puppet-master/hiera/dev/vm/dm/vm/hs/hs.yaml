@@ -21,9 +21,24 @@ firewalld_status: "stopped"
 dm::dm_header_service::header_service_www_output: 
         - /opt/www
         - /opt/www/DMHS_filerepo
-dm::dm_header_service::header_service_path: /opt/HeaderService
+dm::dm_header_service::header_service_repo_path: /opt/lsst/repos/HeaderService
+dm::dm_header_service::header_service_install_path: /opt/lsst/HeaderService
 dm::dm_header_service::header_service_current_tag: tickets/DM-17937
 dm::dm_header_service::header_service_repo: https://github.com/lsst-dm/HeaderService.git
-dm::dm_header_service::salpytools_path: /opt/salpytools
+dm::dm_header_service::salpytools_repo_path: /opt/lsst/repos/salpytools
+dm::dm_header_service::salpytools_install_path: /opt/lsst/salpytools
 dm::dm_header_service::salpytools_current_tag: tickets/DM-16255
 dm::dm_header_service::salpytools_repo: https://github.com/lsst-dm/salpytools.git
+dm::dm_header_service::lsst_software_install: /opt/lsst 
+dm::dm_header_service::lsst_software_repo: /opt/lsst/repos
+
+dm::dm_header_service::fitsio_source: https://github.com/menanteau/fitsio/archive/DMHSv0.1.tar.gz
+dm::dm_header_service::fitsio_filename:  fitsio-DMHSv0.1
+
+dm::dm_header_service::lsst_python:
+        version: "3.6"
+        # This should be updated using the version
+        major: "3"
+        lib_path: "lib64"
+        package: python36
+        path: /bin/python3
