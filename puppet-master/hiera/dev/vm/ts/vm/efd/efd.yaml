@@ -22,15 +22,6 @@ efd::efd_writers::efdwriters_subsystem_list:
         - "Electrometer"
         - "ATDome"
 
-ts_efd::RunningEFDWriters:
-        - "ATDome"
-
-# Note that as for SAL 3.8.40, html needs to go first
-ts_xml::ts_xml_languages:
-        - "html"
-        - "cpp"
-        - "python"
-
 efd::efd_writers::efdwriter_topic_type:
         - command
         - event
@@ -38,7 +29,7 @@ efd::efd_writers::efdwriter_topic_type:
 
 #TODO Testing variables, to be removed
 
-ts_sal::sal_network_interface: "eth1"
+ts_sal::sal_network_interface: "eth0"
 
 # TODO: remove this configuration, since it should use the default policy
 # It configuration 
