@@ -10,6 +10,8 @@ efd::efd_influxdb::influx_admin_password: "root4u"
 efd::efd_influxdb::efd_user: "efduser"
 efd::efd_influxdb::efd_password: "lssttest"
 
+efd::efd_writers::lsst_efd_host: "localhost"
+
 efd::efd_writers::db_type:
         - "efd"
         - "influx"
