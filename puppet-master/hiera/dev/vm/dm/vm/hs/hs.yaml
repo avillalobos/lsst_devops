@@ -2,13 +2,13 @@
 # Data Management profile variables
 #####################################################
 
-dm::dm_header_service::ts_xml_subsystems:
-        - "EFD"
+headerservice::ts_xml_subsystems:
+        #- "EFD"
         - "ATHeaderService"
-        - "ATCamera"
-        - "Scheduler"
+        #- "ATCamera"
+        #- "Scheduler"
 
-dm::dm_header_service::ts_xml_languages:
+headerservice::ts_xml_languages:
         - "cpp"
         - "python"
 
@@ -18,24 +18,24 @@ monitoring_enabled: false
 
 firewalld_status: "stopped"
 
-dm::dm_header_service::header_service_www_output: 
+headerservice::header_service_www_output: 
         - /opt/www
         - /opt/www/DMHS_filerepo
-dm::dm_header_service::header_service_repo_path: /opt/lsst/repos/HeaderService
-dm::dm_header_service::header_service_install_path: /opt/lsst/HeaderService
-dm::dm_header_service::header_service_current_tag: tickets/DM-17937
-dm::dm_header_service::header_service_repo: https://github.com/lsst-dm/HeaderService.git
-dm::dm_header_service::salpytools_repo_path: /opt/lsst/repos/salpytools
-dm::dm_header_service::salpytools_install_path: /opt/lsst/salpytools
-dm::dm_header_service::salpytools_current_tag: tickets/DM-16255
-dm::dm_header_service::salpytools_repo: https://github.com/lsst-dm/salpytools.git
-dm::dm_header_service::lsst_software_install: /opt/lsst 
-dm::dm_header_service::lsst_software_repo: /opt/lsst/repos
+headerservice::header_service_repo_path: /opt/lsst/repos/HeaderService
+headerservice::header_service_install_path: /opt/lsst/HeaderService
+headerservice::header_service_current_tag: tickets/DM-17937
+headerservice::header_service_repo: https://github.com/lsst-dm/HeaderService.git
+headerservice::salpytools_repo_path: /opt/lsst/repos/salpytools
+headerservice::salpytools_install_path: /opt/lsst/salpytools
+headerservice::salpytools_current_tag: tickets/DM-16255
+headerservice::salpytools_git_repo: https://github.com/lsst-dm/salpytools.git
+headerservice::lsst_software_install: /opt/lsst 
+headerservice::lsst_software_repo: /opt/lsst/repos
 
-dm::dm_header_service::fitsio_source: https://github.com/menanteau/fitsio/archive/DMHSv0.1.tar.gz
-dm::dm_header_service::fitsio_filename:  fitsio-DMHSv0.1
+headerservice::fitsio_source: https://github.com/menanteau/fitsio/archive/DMHSv0.1.tar.gz
+headerservice::fitsio_filename:  fitsio-DMHSv0.1
 
-dm::dm_header_service::lsst_python:
+headerservice::lsst_python:
         version: "3.6"
         # This should be updated using the version
         major: "3"
