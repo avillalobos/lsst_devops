@@ -11,6 +11,9 @@ efd::efd_influxdb::efd_user: "efduser"
 efd::efd_influxdb::efd_password: "lssttest"
 
 efd::efd_writers::lsst_efd_host: "localhost"
+efd::efd_writers::ts_sal_path: "/opt/lsst/ts_sal/"
+efd::efd_writers::setup_filename: "setupEFD.env"
+efd::efd_writers::ts_efdruntime_version: "3.9.0"
 
 efd::efd_writers::db_type:
         - "efd"
