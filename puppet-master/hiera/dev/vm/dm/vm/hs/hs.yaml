@@ -12,8 +12,6 @@ dm::dm_header_service::ts_xml_languages:
         - "cpp"
         - "python"
 
-ts_sal::sal_network_interface: "eth1"
-
 monitoring_enabled: false
 
 firewalld_status: "stopped"
